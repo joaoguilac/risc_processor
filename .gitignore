@@ -1,0 +1,8 @@
+*.o
+*.cf
+*.vcd
+*.zip
+*.ghw
+
+# Ignore all files without a extension
+!*.*
