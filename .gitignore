@@ -6,3 +6,7 @@
 
 # Ignore all files without a extension
 !*.*
+
+**/build
+**/settings.json
+.vscode
