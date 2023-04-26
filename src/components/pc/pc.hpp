@@ -4,7 +4,7 @@ SC_MODULE(pc) {
     sc_in<sc_uint> jump_position;
     sc_in<bool> Jump, Reset;
     sc_clock clk("clk", 10, SC_NS, 0.5);
-    sc_out<sc_uint> instruction_position;
+    sc_out<sc_uint> instruction_address;
 
     sc_int counter = 0;
 
@@ -29,5 +29,5 @@ void pc::next_instruction() {
             counter++;
         }
     }
-    instruction_position.write(counter);
+    instruction_address.write(counter);
 }

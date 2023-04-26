@@ -2,7 +2,7 @@
 
 SC_MODULE(mux) {
     sc_in<sc_int<16>> entry1, entry2;
-    sc_in<bool> control;
+    sc_in<bool> UlaOP;
     sc_out<sc_int<16>> out;
 
     // methods
@@ -10,12 +10,12 @@ SC_MODULE(mux) {
 
     SC_CTOR(mux) {
         SC_METHOD(select);
-        sensitive << control;
+        sensitive << UlaOP;
     }
 }
 
 void mux::select() {
-    if (control.read()) {
+    if (UlaOP.read()) {
         out.write(entry1.read());
     }
     else {

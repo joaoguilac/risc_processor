@@ -2,10 +2,10 @@
 #include "sysc/utils/sc_vector.h"
 
 SC_MODULE(instruction_memory) {
-    sc_in<sc_uint> position;
+    sc_in<sc_uint> address;
     sc_clock clk("clk", 10, SC_NS, 0.5);
     sc_out<sc_int<16>> instruction_out;
-    
+
     sc_vector<sc_int<16>> instruction_bank[16];
 
     // methods
@@ -18,5 +18,5 @@ SC_MODULE(instruction_memory) {
 }
 
 void instruction_memory::next_instruction() {
-    instruction_out.write(instruction_bank[position.read()]);
+    instruction_out.write(instruction_bank[address.read()]);
 }

@@ -2,7 +2,8 @@
 #include "sysc/utils/sc_vector.h"
 
 SC_MODULE(registers) {
-    sc_in<sc_int<16>> address1, address2, memory_data;
+    sc_in<sc_uint<3>> load_address1, load_address2, write_address;
+    sc_in<sc_int<16>> write_data;
     sc_in<sc_uint<1>> RegWrite, RegEnable, RegUla;
     sc_clock clk("clk", 10, SC_NS, 0.5);
     sc_out<sc_int<16>> data_out1, data_out2;
@@ -35,14 +36,14 @@ void registers::control() {
 }
 
 void ula_load() {
-    data_out1.write(registers_bank[address1.read()]);
-    data_out2.write(registers_bank[address2.read()]);
+    data_out1.write(registers_bank[load_address1.read()]);
+    data_out2.write(registers_bank[load_address2.read()]);
 }
 
 void memory_load() {
-    registers_bank[address1.read()].write(memory_data.read());
+    registers_bank[load_address1.read()].write(write_data.read());
 }
 
 void memory_write() {
-    data_out1.write(registers_bank[address1.read()]);
+    data_out1.write(registers_bank[write_address.read()]);
 }

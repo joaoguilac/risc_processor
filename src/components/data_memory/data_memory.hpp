@@ -1,17 +1,11 @@
 #include "systemc.h"
 
 SC_MODULE(data_memory) {
-    
+    // TODO in/out
 
-    // methods
-    void next_instruction();
+    // TODO methods
 
     SC_CTOR(data_memory) {
-        SC_METHOD(next_instruction);
-        sensitive << Reset << clk;
+        // TODO constructor
     }
-}
-
-void pc::next_instruction() {
-
 }
