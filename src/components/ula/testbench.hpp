@@ -1,7 +1,7 @@
 #include "systemc.h"
 
 SC_MODULE(testbench) {
-	sc_out<sc_int<16>> A, B;
+	sc_out<sc_int<32>> A, B;
     sc_out<sc_uint<3>> Op;
 	sc_in<bool> Clk;
 

@@ -1,9 +1,9 @@
 #include "systemc.h"
 
 SC_MODULE(ula) {
-    sc_in<sc_int<16>> op1, op2;
+    sc_in<sc_int<32>> op1, op2;
     sc_in<sc_uint<3>> ALUOp;
-    sc_out<sc_int<16>> out;
+    sc_out<sc_int<32>> out;
 
     // methods
     void execute();

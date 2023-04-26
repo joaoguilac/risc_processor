@@ -4,9 +4,9 @@
 SC_MODULE(instruction_memory) {
     sc_in<sc_uint> address;
     sc_clock clk("clk", 10, SC_NS, 0.5);
-    sc_out<sc_int<16>> instruction_out;
+    sc_out<sc_int<32>> instruction_out;
 
-    sc_vector<sc_int<16>> instruction_bank[16];
+    sc_vector<sc_int<32>> instruction_bank[32];
 
     // methods
     void next_instruction();
