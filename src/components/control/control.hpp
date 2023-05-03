@@ -1,7 +1,7 @@
 #include "systemc.h"
 #include "sysc/utils/sc_vector.h"
 
-SC_MODULE(controler)
+SC_MODULE(control)
 {
     sc_in<sc_uint<3>> operation;
     sc_clock clk("clk", 10, SC_NS, 0.5);
@@ -10,14 +10,14 @@ SC_MODULE(controler)
     // methods
     void decode();
 
-    SC_CTOR(controler)
+    SC_CTOR(control)
     {
         SC_METHOD(decode);
         sensitive << clk;
     }
 };
 
-void controler::decode()
+void control::decode()
 {
     switch (operation.read())
     {
