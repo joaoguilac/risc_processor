@@ -5,7 +5,7 @@ SC_MODULE(controler)
 {
     sc_in<sc_uint<3>> operation;
     sc_clock clk("clk", 10, SC_NS, 0.5);
-    sc_out<sc_uint<1>> reset, jumpCmp, memLoad, regWrite, jump, ctrlMemWrite, ulaOP, regUla;
+    sc_out<sc_uint<1>> reset, jumpCmp, memLoad, regWrite, jump, ctrlMemWrite, ulaOP, regUla, jumpNeg;
 
     // methods
     void decode();
@@ -21,7 +21,7 @@ void controler::decode()
 {
     switch (operation.read())
     {
-    case 0:
+    case 0: // ULA
         jump.write(0);
         reset.write(0);
         regUla.write(1);
@@ -30,8 +30,9 @@ void controler::decode()
         ctrlMemWrite.write(0);
         memLoad.write(0);
         jumpCmp.write(0);
+        jumpNeg.write(0);
         break;
-    case 1:
+    case 1: // Load
         jump.write(0);
         reset.write(0);
         regUla.write(0);
@@ -40,8 +41,9 @@ void controler::decode()
         ctrlMemWrite.write(0);
         memLoad.write(1);
         jumpCmp.write(0);
+        jumpNeg.write(0);
         break;
-    case 2:
+    case 2: // Store
         jump.write(0);
         reset.write(0);
         regUla.write(0);
@@ -50,8 +52,9 @@ void controler::decode()
         ctrlMemWrite.write(1);
         memLoad.write(0);
         jumpCmp.write(0);
+        jumpNeg.write(0);
         break;
-    case 3:
+    case 3: // Jump Absoluto
         jump.write(1);
         reset.write(0);
         regUla.write(0);
@@ -60,8 +63,9 @@ void controler::decode()
         ctrlMemWrite.write(0);
         memLoad.write(0);
         jumpCmp.write(0);
+        jumpNeg.write(0);
         break;
-    case 4:
+    case 4: // Jump se Negativo
         jump.write(0);
         reset.write(0);
         regUla.write(0);
@@ -70,8 +74,9 @@ void controler::decode()
         ctrlMemWrite.write(0);
         memLoad.write(0);
         jumpCmp.write(1);
+        jumpNeg.write(1);
         break;
-    case 5:
+    case 5: // Jump se zero
         jump.write(0);
         reset.write(0);
         regUla.write(0);
@@ -80,6 +85,7 @@ void controler::decode()
         ctrlMemWrite.write(0);
         memLoad.write(0);
         jumpCmp.write(1);
+        jumpNeg.write(0);
         break;
     default:
         jump.write(0);
@@ -90,6 +96,7 @@ void controler::decode()
         ctrlMemWrite.write(0);
         memLoad.write(0);
         jumpCmp.write(0);
+        jumpNeg.write(0);
         break;
     }
 }
