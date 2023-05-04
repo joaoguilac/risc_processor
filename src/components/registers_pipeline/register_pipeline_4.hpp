@@ -4,11 +4,11 @@
 SC_MODULE(register_pipeline_4)
 {
     sc_in<sc_int<32>> DataUlaIn, DataMemIn;
-    sc_in<sc_int<5>> AddrMuxRegIn;
+    sc_in<sc_uint<5>> AddrMuxRegIn;
     sc_in<bool> RegWriteIn, MemLoadIn;
 
     sc_out<sc_int<32>> DataUlaOut, DataMemOut;
-    sc_out<sc_int<5>> AddrMuxRegOut;
+    sc_out<sc_uint<5>> AddrMuxRegOut;
     sc_out<bool> RegWriteOut, MemLoadOut;
 
     sc_clock clk("clk", 10, SC_NS, 0.5);

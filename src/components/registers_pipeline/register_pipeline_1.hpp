@@ -3,8 +3,8 @@
 
 SC_MODULE(register_pipeline_1)
 {
-    sc_in<sc_int<32>> instruction_in;
-    sc_out<sc_int<32>> instruction_out;
+    sc_in<sc_int<32>> InstructionIn;
+    sc_out<sc_int<32>> InstructionOut;
 
     sc_clock clk("clk", 10, SC_NS, 0.5);
 
@@ -20,5 +20,5 @@ SC_MODULE(register_pipeline_1)
 
 void register_pipeline_1::pass_instruction()
 {
-    instruction_out.write(instruction_in);
+    InstructionOut.write(InstructionIn);
 }

@@ -3,13 +3,13 @@
 
 SC_MODULE(register_pipeline_2)
 {
-    sc_in<sc_int<32>> instruction_in, data_out1_in, data_out2_in;
-    sc_in<sc_int<5>> addr_mem_load_fonte_in, addr_ula_reg_in, addr_mem_load_reg_in, addr_mem_write_in;
+    sc_in<sc_int<32>> InstructionIn, DataOut1In, DataOut2In;
+    sc_in<sc_uint<5>> AddrMemLoadFonteIn, AddrUlaRegIn, AddrMemLoadRegIn, AddrMemWriteIn;
     sc_in<bool> UlaOPIn, CtrlMemWriteIn, JumpIn, RegWriteIn, MemLoadIn, JumpCmpIn, JumpNegIn;
 
-    sc_out<sc_int<32>> instruction_out, data_out1_out, data_out2_out;
-    sc_out<sc_int<5>> addr_mem_load_fonte_out, addr_ula_reg_out, addr_mem_load_reg_out, addr_mem_write_out;
-    sc_out<bool> ulaOP_out, ctrlMemWrite_out, jump_out, regWrite_out, memLoad_out, jumpCmp_out, jumpNeg_out;
+    sc_out<sc_int<32>> InstructionOut, DataOut1, DataOut2;
+    sc_out<sc_uint<5>> AddrMemLoadFonteOut, AddrUlaRegOut, AddrMemLoadRegOut, AddrMemWriteOut;
+    sc_out<bool> UlaOPOut, CtrlMemWriteOut, JumpOut, RegWriteOut, MemLoadOut, JumpCmpOut, JumpNegOut;
 
     sc_clock clk("clk", 10, SC_NS, 0.5);
 
@@ -25,19 +25,19 @@ SC_MODULE(register_pipeline_2)
 
 void register_pipeline_2::pass_instruction()
 {
-    instruction_out.write(instruction_in.read());
-    data_out1_out.write(data_out1_in.read());
-    data_out2_out.write(data_out2_in.read());
-    addr_mem_load_fonte_out.write(addr_mem_load_fonte_in.read());
-    addr_ula_reg_out.write(addr_ula_reg_in.read());
-    addr_mem_load_reg_out.write(addr_mem_load_reg_in.read());
-    addr_mem_write_out.write(addr_mem_write_in.read());
+    InstructionOut.write(InstructionIn.read());
+    DataOut1.write(DataOut1In.read());
+    DataOut2.write(DataOut2In.read());
+    AddrMemLoadFonteOut.write(AddrMemLoadFonteIn.read());
+    AddrUlaRegOut.write(AddrUlaRegIn.read());
+    AddrMemLoadRegOut.write(AddrMemLoadRegIn.read());
+    AddrMemWriteOut.write(AddrMemWriteIn.read());
 
-    ulaOP_out.write(UlaOPIn.read());
-    ctrlMemWrite_out.write(CtrlMemWriteIn.read());
-    jump_out.write(JumpIn.read());
-    regWrite_out.write(RegWriteIn.read());
-    memLoad_out.write(MemLoadIn.read());
-    jumpCmp_out.write(JumpCmpIn.read());
-    jumpNeg_out.write(JumpNegIn.read());
+    UlaOPOut.write(UlaOPIn.read());
+    CtrlMemWriteOut.write(CtrlMemWriteIn.read());
+    JumpOut.write(JumpIn.read());
+    RegWriteOut.write(RegWriteIn.read());
+    MemLoadOut.write(MemLoadIn.read());
+    JumpCmpOut.write(JumpCmpIn.read());
+    JumpNegOut.write(JumpNegIn.read());
 }

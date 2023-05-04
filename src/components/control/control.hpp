@@ -3,9 +3,9 @@
 
 SC_MODULE(control)
 {
-    sc_in<sc_uint<3>> operation;
+    sc_in<sc_uint<3>> Operation;
     sc_clock clk("clk", 10, SC_NS, 0.5);
-    sc_out<bool> reset, jumpCmp, memLoad, regWrite, jump, ctrlMemWrite, ulaOP, regUla, jumpNeg;
+    sc_out<bool> Reset, JumpCmp, MemLoad, RegWrite, Jump, CtrlMemWrite, UlaOP, RegUla, JumpNeg;
 
     // methods
     void decode();
@@ -19,84 +19,84 @@ SC_MODULE(control)
 
 void control::decode()
 {
-    switch (operation.read())
+    switch (Operation.read())
     {
     case 0: // ULA
-        jump.write(0);
-        reset.write(0);
-        regUla.write(1);
-        regWrite.write(1);
-        ulaOP.write(1);
-        ctrlMemWrite.write(0);
-        memLoad.write(0);
-        jumpCmp.write(0);
-        jumpNeg.write(0);
+        Jump.write(0);
+        Reset.write(0);
+        RegUla.write(1);
+        RegWrite.write(1);
+        UlaOP.write(1);
+        CtrlMemWrite.write(0);
+        MemLoad.write(0);
+        JumpCmp.write(0);
+        JumpNeg.write(0);
         break;
     case 1: // Load
-        jump.write(0);
-        reset.write(0);
-        regUla.write(0);
-        regWrite.write(1);
-        ulaOP.write(0);
-        ctrlMemWrite.write(0);
-        memLoad.write(1);
-        jumpCmp.write(0);
-        jumpNeg.write(0);
+        Jump.write(0);
+        Reset.write(0);
+        RegUla.write(0);
+        RegWrite.write(1);
+        UlaOP.write(0);
+        CtrlMemWrite.write(0);
+        MemLoad.write(1);
+        JumpCmp.write(0);
+        JumpNeg.write(0);
         break;
     case 2: // Store
-        jump.write(0);
-        reset.write(0);
-        regUla.write(0);
-        regWrite.write(0);
-        ulaOP.write(0);
-        ctrlMemWrite.write(1);
-        memLoad.write(0);
-        jumpCmp.write(0);
-        jumpNeg.write(0);
+        Jump.write(0);
+        Reset.write(0);
+        RegUla.write(0);
+        RegWrite.write(0);
+        UlaOP.write(0);
+        CtrlMemWrite.write(1);
+        MemLoad.write(0);
+        JumpCmp.write(0);
+        JumpNeg.write(0);
         break;
     case 3: // Jump Absoluto
-        jump.write(1);
-        reset.write(0);
-        regUla.write(0);
-        regWrite.write(0);
-        ulaOP.write(0);
-        ctrlMemWrite.write(0);
-        memLoad.write(0);
-        jumpCmp.write(0);
-        jumpNeg.write(0);
+        Jump.write(1);
+        Reset.write(0);
+        RegUla.write(0);
+        RegWrite.write(0);
+        UlaOP.write(0);
+        CtrlMemWrite.write(0);
+        MemLoad.write(0);
+        JumpCmp.write(0);
+        JumpNeg.write(0);
         break;
     case 4: // Jump se Negativo
-        jump.write(0);
-        reset.write(0);
-        regUla.write(0);
-        regWrite.write(0);
-        ulaOP.write(1);
-        ctrlMemWrite.write(0);
-        memLoad.write(0);
-        jumpCmp.write(1);
-        jumpNeg.write(1);
+        Jump.write(0);
+        Reset.write(0);
+        RegUla.write(0);
+        RegWrite.write(0);
+        UlaOP.write(1);
+        CtrlMemWrite.write(0);
+        MemLoad.write(0);
+        JumpCmp.write(1);
+        JumpNeg.write(1);
         break;
     case 5: // Jump se zero
-        jump.write(0);
-        reset.write(0);
-        regUla.write(0);
-        regWrite.write(0);
-        ulaOP.write(1);
-        ctrlMemWrite.write(0);
-        memLoad.write(0);
-        jumpCmp.write(1);
-        jumpNeg.write(0);
+        Jump.write(0);
+        Reset.write(0);
+        RegUla.write(0);
+        RegWrite.write(0);
+        UlaOP.write(1);
+        CtrlMemWrite.write(0);
+        MemLoad.write(0);
+        JumpCmp.write(1);
+        JumpNeg.write(0);
         break;
     default:
-        jump.write(0);
-        reset.write(0);
-        regUla.write(0);
-        regWrite.write(0);
-        ulaOP.write(0);
-        ctrlMemWrite.write(0);
-        memLoad.write(0);
-        jumpCmp.write(0);
-        jumpNeg.write(0);
+        Jump.write(0);
+        Reset.write(0);
+        RegUla.write(0);
+        RegWrite.write(0);
+        UlaOP.write(0);
+        CtrlMemWrite.write(0);
+        MemLoad.write(0);
+        JumpCmp.write(0);
+        JumpNeg.write(0);
         break;
     }
 }
