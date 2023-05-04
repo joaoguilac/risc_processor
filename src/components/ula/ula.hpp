@@ -2,11 +2,11 @@
 
 SC_MODULE(ula)
 {
-    sc_in<sc_int<32>> op1, op2;
+    sc_in<sc_int<32>> Op1, Op2;
     sc_in<sc_uint<3>> UlaInst;
-    sc_in<sc_uint<1>> UlaOP, JumpCmp, JumpNeg;
-    sc_out<sc_uint<1>> jump_result;
-    sc_out<sc_int<32>> out_data;
+    sc_in<bool> UlaOP, JumpCmp, JumpNeg;
+    sc_out<bool> JumpResult;
+    sc_out<sc_int<32>> DataOut;
 
     // methods
     void execute();
@@ -14,7 +14,7 @@ SC_MODULE(ula)
     SC_CTOR(ula)
     {
         SC_METHOD(execute);
-        sensitive << op1 << op2 << UlaInst;
+        sensitive << Op1 << Op2 << UlaInst;
     }
 };
 
@@ -25,47 +25,47 @@ void ula::execute()
     switch (op)
     {
     case 1: // And
-        out_data.write(op1.read() & op2.read());
+        DataOut.write(Op1.read() & Op2.read());
         break;
     case 2: // Or
-        out_data.write(op1.read() | op2.read());
+        DataOut.write(Op1.read() | Op2.read());
         break;
     case 3: // Xor
-        out_data.write(op1.read() ^ op2.read());
+        DataOut.write(Op1.read() ^ Op2.read());
         break;
     case 4: // Not
-        out_data.write(~op1.read());
+        DataOut.write(~Op1.read());
         break;
     case 5: // Cmp
         if (JumpCmp.read())
             if (JumpNeg.read())
             {
-                if (op1.read() < 0)
-                    jump_result.write(1);
+                if (Op1.read() < 0)
+                    JumpResult.write(1);
                 else
-                    jump_result.write(0);
+                    JumpResult.write(0);
             }
             else
             {
-                if (op1.read() == 0)
-                    jump_result.write(1);
+                if (Op1.read() == 0)
+                    JumpResult.write(1);
                 else
-                    jump_result.write(0);
+                    JumpResult.write(0);
             }
-        else if (op1.read() == op2.read())
+        else if (Op1.read() == Op2.read())
         {
-            out_data.write(1);
+            DataOut.write(1);
         }
         else
         {
-            out_data.write(0);
+            DataOut.write(0);
         }
         break;
     case 6: // Add
-        out_data.write(op1.read() + op2.read());
+        DataOut.write(Op1.read() + Op2.read());
         break;
     case 7: // Sub
-        out_data.write(op1.read() - op2.read());
+        DataOut.write(Op1.read() - Op2.read());
         break;
     }
 }

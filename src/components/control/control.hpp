@@ -5,7 +5,7 @@ SC_MODULE(control)
 {
     sc_in<sc_uint<3>> operation;
     sc_clock clk("clk", 10, SC_NS, 0.5);
-    sc_out<sc_uint<1>> reset, jumpCmp, memLoad, regWrite, jump, ctrlMemWrite, ulaOP, regUla, jumpNeg;
+    sc_out<bool> reset, jumpCmp, memLoad, regWrite, jump, ctrlMemWrite, ulaOP, regUla, jumpNeg;
 
     // methods
     void decode();

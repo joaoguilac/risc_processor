@@ -2,9 +2,9 @@
 
 SC_MODULE(mux5)
 {
-    sc_in<sc_int<5>> entry1, entry2;
-    sc_in<sc_uint<1>> control;
-    sc_out<sc_int<5>> out;
+    sc_in<sc_int<5>> Entry1, Entry2;
+    sc_in<bool> Control;
+    sc_out<sc_int<5>> Out;
 
     // methods
     void select();
@@ -12,18 +12,18 @@ SC_MODULE(mux5)
     SC_CTOR(mux5)
     {
         SC_METHOD(select);
-        sensitive << control;
+        sensitive << Control;
     }
 };
 
 void mux5::select()
 {
-    if (control.read())
+    if (Control.read())
     {
-        out.write(entry1.read());
+        Out.write(Entry1.read());
     }
     else
     {
-        out.write(entry2.read());
+        Out.write(Entry2.read());
     }
 }

@@ -2,10 +2,10 @@
 
 SC_MODULE(pc)
 {
-    sc_in<sc_uint<5>> jump_position;
+    sc_in<sc_uint<5>> JumpPosition;
     sc_in<bool> Jump, JumpCmp, Reset;
     sc_clock clk("clk", 10, SC_NS, 0.5);
-    sc_out<sc_uint<5>> instruction_address;
+    sc_out<sc_uint<5>> InstructionAddres;
 
     sc_uint<5> counter = 0;
 
@@ -29,12 +29,12 @@ void pc::next_instruction()
     {
         if (Jump.read() || JumpCmp.read())
         {
-            counter = jump_position.read();
+            counter = JumpPosition.read();
         }
         else
         {
             counter++;
         }
     }
-    instruction_address.write(counter);
+    InstructionAddres.write(counter);
 }

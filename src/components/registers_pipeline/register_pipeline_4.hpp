@@ -3,13 +3,13 @@
 
 SC_MODULE(register_pipeline_4)
 {
-    sc_in<sc_int<32>> data_ula_in, data_mem_in;
-    sc_in<sc_int<5>> addr_mux_reg_in;
-    sc_in<sc_uint<1>> regWrite_in, memLoad_in;
+    sc_in<sc_int<32>> DataUlaIn, DataMemIn;
+    sc_in<sc_int<5>> AddrMuxRegIn;
+    sc_in<bool> RegWriteIn, MemLoadIn;
 
-    sc_out<sc_int<32>> data_ula_out, data_mem_out;
-    sc_out<sc_int<5>> addr_mux_reg_out;
-    sc_out<sc_uint<1>> regWrite_out, memLoad_out;
+    sc_out<sc_int<32>> DataUlaOut, DataMemOut;
+    sc_out<sc_int<5>> AddrMuxRegOut;
+    sc_out<bool> RegWriteOut, MemLoadOut;
 
     sc_clock clk("clk", 10, SC_NS, 0.5);
 
@@ -25,10 +25,10 @@ SC_MODULE(register_pipeline_4)
 
 void register_pipeline_4::pass_instruction()
 {
-    data_ula_out.write(data_ula_in.read());
-    data_mem_out.write(data_mem_in.read());
-    addr_mux_reg_out.write(addr_mux_reg_in.read());
+    DataUlaOut.write(DataUlaIn.read());
+    DataMemOut.write(DataMemIn.read());
+    AddrMuxRegOut.write(AddrMuxRegIn.read());
 
-    regWrite_out.write(regWrite_in.read());
-    memLoad_out.write(memLoad_in.read());
+    RegWriteOut.write(RegWriteIn.read());
+    MemLoadOut.write(MemLoadIn.read());
 }

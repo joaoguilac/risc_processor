@@ -2,9 +2,9 @@
 
 SC_MODULE(mux32)
 {
-    sc_in<sc_int<32>> entry1, entry2;
-    sc_in<sc_uint<1>> control;
-    sc_out<sc_int<32>> out;
+    sc_in<sc_int<32>> Entry1, Entry2;
+    sc_in<bool> Control;
+    sc_out<sc_int<32>> Out;
 
     // methods
     void select();
@@ -12,18 +12,18 @@ SC_MODULE(mux32)
     SC_CTOR(mux32)
     {
         SC_METHOD(select);
-        sensitive << control;
+        sensitive << Control;
     }
 };
 
 void mux32::select()
 {
-    if (control.read())
+    if (Control.read())
     {
-        out.write(entry1.read());
+        Out.write(Entry1.read());
     }
     else
     {
-        out.write(entry2.read());
+        Out.write(Entry2.read());
     }
 }

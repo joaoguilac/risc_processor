@@ -5,11 +5,11 @@ SC_MODULE(register_pipeline_2)
 {
     sc_in<sc_int<32>> instruction_in, data_out1_in, data_out2_in;
     sc_in<sc_int<5>> addr_mem_load_fonte_in, addr_ula_reg_in, addr_mem_load_reg_in, addr_mem_write_in;
-    sc_in<sc_uint<1>> UlaOPIn, CtrlMemWriteIn, JumpIn, RegWriteIn, MemLoadIn, JumpCmpIn, JumpNegIn;
+    sc_in<bool> UlaOPIn, CtrlMemWriteIn, JumpIn, RegWriteIn, MemLoadIn, JumpCmpIn, JumpNegIn;
 
     sc_out<sc_int<32>> instruction_out, data_out1_out, data_out2_out;
     sc_out<sc_int<5>> addr_mem_load_fonte_out, addr_ula_reg_out, addr_mem_load_reg_out, addr_mem_write_out;
-    sc_out<sc_uint<1>> ulaOP_out, ctrlMemWrite_out, jump_out, regWrite_out, memLoad_out, jumpCmp_out, jumpNeg_out;
+    sc_out<bool> ulaOP_out, ctrlMemWrite_out, jump_out, regWrite_out, memLoad_out, jumpCmp_out, jumpNeg_out;
 
     sc_clock clk("clk", 10, SC_NS, 0.5);
 
