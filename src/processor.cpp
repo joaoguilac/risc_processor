@@ -51,23 +51,24 @@ SC_MODULE(processor)
 
     // Register Pipeline 2
     sc_signal<sc_int<32>> InstructionOutPipe2, DataOut1Pipe2, DataOut2Pipe2;
-    sc_signal<sc_int<5>> AddrMemLoadFonteOutPipe2, AddrIlaRegOutPipe2, AddrMemLoadRegOutPipe2, AddrMemWriteOutPipe2;
+    sc_signal<sc_uint<5>> AddrMemLoadFonteOutPipe2, AddrUlaRegOutPipe2, AddrMemLoadRegOutPipe2, AddrMemWriteOutPipe2;
     sc_signal<bool> UlaOPOutPipe2, CtrlMemWriteOutPipe2, JumpOutPipe2, RegWriteOutPipe2, MemLoadOutPipe2, JumpCmpOutPipe2, JumpNegOutPipe2;
     sc_signal<sc_uint<5>> AddrMemLoadFonteInPipe2, AddrUlaRegInPipe2, AddrMemLoadRegInPipe2, AddrMemWriteInPipe2; // IN
 
     // Ula
     sc_signal<bool> JumpResultUla;
     sc_signal<sc_int<32>> DataOutUla;
+    sc_signal<sc_uint<3>> UlaInstUla; // IN
 
-    // Mux 5
-    sc_signal<sc_int<5>> OutMux5;
+    // Mux 5 Ula
+    sc_signal<sc_uint<5>> OutMux5;
 
-    // Mux 32 1
+    // Mux 32 Ula
     sc_signal<sc_int<32>> Out1Mux32;
 
     // Register Pipeline 3
     sc_signal<sc_int<32>> InstructionOutPipe3, DataMuxOutPipe3;
-    sc_signal<sc_int<5>> AddrMemLoadFonteOutPipe3, AddrMuxRegOutPipe3, AddrMemWriteOutPipe3;
+    sc_signal<sc_uint<5>> AddrMemLoadFonteOutPipe3, AddrMuxRegOutPipe3, AddrMemWriteOutPipe3;
     sc_signal<bool> JumpResultOutPipe3;
     sc_signal<bool> CtrlMemWriteOutPipe3, JumpOutPipe3, RegWriteOutPipe3, MemLoadOutPipe3, JumpCmpOutPipe3;
 
@@ -79,7 +80,7 @@ SC_MODULE(processor)
     sc_signal<sc_uint<5>> AddrMuxRegOutPipe4;
     sc_signal<bool> RegWriteOutPipe4, MemLoadOutPipe4;
 
-    // Mux 32 2
+    // Mux 32 Reg
     sc_signal<sc_int<32>> Out2Mux32;
 
     //=== Methods
@@ -191,19 +192,110 @@ SC_MODULE(processor)
         RegPipeline2.JumpCmpIn(JumpCmpControl);
         RegPipeline2.JumpNegIn(JumpNegControl);
         //// Out
+        RegPipeline2.InstructionOut(InstructionOutPipe2);
+        RegPipeline2.DataOut1(DataOut1Pipe2);
+        RegPipeline2.DataOut2(DataOut2Pipe2);
+        RegPipeline2.AddrMemLoadFonteOut(AddrMemLoadFonteOutPipe2);
+        RegPipeline2.AddrUlaRegOut(AddrUlaRegOutPipe2);
+        RegPipeline2.AddrMemLoadRegOut(AddrMemLoadRegOutPipe2);
+        RegPipeline2.AddrMemWriteOut(AddrMemWriteOutPipe2);
+        RegPipeline2.UlaOPOut(UlaOPOutPipe2);
+        RegPipeline2.CtrlMemWriteOut(CtrlMemWriteOutPipe2);
+        RegPipeline2.JumpOut(JumpOutPipe2);
+        RegPipeline2.RegWriteOut(RegWriteOutPipe2);
+        RegPipeline2.MemLoadOut(MemLoadOutPipe2);
+        RegPipeline2.JumpCmpOut(JumpCmpOutPipe2);
+        RegPipeline2.JumpNegOut(JumpNegOutPipe2);
 
         // Ula
+        //// In
+        Ula.Op1(DataOut1Pipe2);
+        Ula.Op2(DataOut2Pipe2);
 
-        // Mux 5
+        Aux32Int = InstructionOutPipe2;
+        Aux32BitVector = Aux32Int;
+        Aux3BitVector = Aux32BitVector.range(28, 26);
+        Aux3Uint = Aux3BitVector.to_uint();
+        UlaInstUla = Aux3Uint;
+        Ula.UlaInst(UlaInstUla);
+        Ula.UlaOP(UlaOPOutPipe2);
+        Ula.JumpCmp(JumpCmpOutPipe2);
+        Ula.JumpNeg(JumpNegOutPipe2);
+        //// Out
+        Ula.JumpResult(JumpResultUla);
+        Ula.DataOut(DataOutUla);
 
-        // Mux 32
+        // Mux 5 Ula
+        //// IN
+        MuxUla1.Entry1(AddrUlaRegOutPipe2);
+        MuxUla1.Entry2(AddrMemLoadRegOutPipe2);
+        //// Out
+        MuxUla1.Out(OutMux5);
+
+        // Mux 32 Ula
+        //// IN
+        MuxUla2.Entry1(DataOutUla);
+        MuxUla2.Entry2(DataOut1Pipe2);
+        //// Out
+        MuxUla2.Out(Out1Mux32);
 
         // Register Pipeline 3
+        //// IN
+        RegPipeline3.InstructionIn(InstructionOutPipe2);
+        RegPipeline3.DataMuxIn(Out1Mux32);
+        RegPipeline3.AddrMemLoadFonteIn(AddrMemLoadFonteOutPipe2);
+        RegPipeline3.AddrMuxRegIn(OutMux5);
+        RegPipeline3.AddrMemWriteIn(AddrMemWriteOutPipe2);
+        RegPipeline3.JumpResultIn(JumpResultUla);
+        RegPipeline3.CtrlMemWriteIn(CtrlMemWriteOutPipe2);
+        RegPipeline3.JumpIn(JumpOutPipe2);
+        RegPipeline3.RegWriteIn(RegWriteOutPipe2);
+        RegPipeline3.MemLoadIn(MemLoadOutPipe2);
+        RegPipeline3.JumpCmpIn(JumpCmpOutPipe2);
+        //// Out
+        RegPipeline3.InstructionOut(InstructionOutPipe3);
+        RegPipeline3.DataMuxOut(DataMuxOutPipe3);
+        RegPipeline3.AddrMemLoadFonteOut(AddrMemLoadFonteOutPipe3);
+        RegPipeline3.AddrMuxRegOut(AddrMuxRegOutPipe3);
+        RegPipeline3.AddrMemWriteOut(AddrMemWriteOutPipe3);
+        RegPipeline3.JumpResultOut(JumpResultOutPipe3);
+        RegPipeline3.CtrlMemWriteOut(CtrlMemWriteOutPipe3);
+        RegPipeline3.JumpOut(JumpOutPipe3);
+        RegPipeline3.RegWriteOut(RegWriteOutPipe3);
+        RegPipeline3.MemLoadOut(MemLoadOutPipe3);
+        RegPipeline3.JumpCmpOut(JumpCmpOutPipe3);
 
         // Data Memory
+        //// IN
+        DataMemory.AddresLoad(AddrMemLoadFonteOutPipe3);
+        DataMemory.AddresWrite(AddrMemWriteOutPipe3);
+        DataMemory.DataWriteIn(DataMuxOutPipe3);
+        DataMemory.MemWrite(CtrlMemWriteOutPipe3);
+        DataMemory.MemLoad(MemLoadOutPipe3);
+        //// Out
+        DataMemory.DataLoadOut(DataLoadOutDataMemory);
 
         // Register Pipeline 4
+        //// In
+        RegPipeline4.DataUlaIn(DataMuxOutPipe3);
+        RegPipeline4.DataMemIn(DataLoadOutDataMemory);
+        RegPipeline4.AddrMuxRegIn(AddrMuxRegOutPipe3);
+        RegPipeline4.RegWriteIn(RegWriteOutPipe3);
+        RegPipeline4.MemLoadIn(MemLoadOutPipe3);
 
-        // Mux 32
+        //// Out
+        RegPipeline4.DataUlaOut(DataUlaOutPipe4);
+        RegPipeline4.DataMemOut(DataMemOutPipe4);
+        RegPipeline4.AddrMuxRegOut(AddrMuxRegOutPipe4);
+        RegPipeline4.RegWriteOut(RegWriteOutPipe4);
+        RegPipeline4.MemLoadOut(MemLoadOutPipe4);
+
+        // Mux 32 Reg
+        //// IN
+        MuxData.Entry1(DataMemOutPipe4);
+        MuxData.Entry2(DataUlaOutPipe4);
+        MuxData.Control(MemLoadOutPipe3);
+        //// Out
+        MuxData.Out(Out2Mux32);
     }
 };
