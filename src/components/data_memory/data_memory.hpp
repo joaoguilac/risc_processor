@@ -9,14 +9,14 @@ SC_MODULE(data_memory)
 
     sc_vector<sc_int<32>> MemoryBank[32];
 
-    sc_clock clk("clk", 10, SC_NS, 0.5);
+    sc_port<sc_signal_in_if<bool>> clock;
 
     void control();
 
     SC_CTOR(data_memory)
     {
         SC_METHOD(control);
-        sensitive << clk;
+        sensitive << clock.pos();
     }
 };
 

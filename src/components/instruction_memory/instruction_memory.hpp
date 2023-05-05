@@ -4,10 +4,11 @@
 SC_MODULE(instruction_memory)
 {
     sc_in<sc_uint<5>> Address;
-    sc_clock clk("clk", 10, SC_NS, 0.5);
     sc_out<sc_int<32>> InstructionOut;
 
     sc_vector<sc_int<32>> InstructionBank[32];
+
+    sc_port<sc_signal_in_if<bool>> clock;
 
     // methods
     void next_instruction();
@@ -15,7 +16,7 @@ SC_MODULE(instruction_memory)
     SC_CTOR(instruction_memory)
     {
         SC_METHOD(next_instruction);
-        sensitive << clk;
+        sensitive << clock.pos();
     }
 };
 

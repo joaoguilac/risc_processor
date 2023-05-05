@@ -13,7 +13,7 @@ SC_MODULE(register_pipeline_3)
     sc_out<bool> JumpResultOut;
     sc_out<bool> CtrlMemWriteOut, JumpOut, RegWriteOut, MemLoadOut, JumpCmpOut;
 
-    sc_clock clk("clk", 10, SC_NS, 0.5);
+    sc_port<sc_signal_in_if<bool>> clock;
 
     // methods
     void pass_instruction();
@@ -21,7 +21,7 @@ SC_MODULE(register_pipeline_3)
     SC_CTOR(register_pipeline_3)
     {
         SC_METHOD(pass_instruction);
-        sensitive << clk;
+        sensitive << clock.pos();
     }
 };
 
