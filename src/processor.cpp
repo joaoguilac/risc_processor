@@ -31,7 +31,7 @@ SC_MODULE(processor)
     control Control{"Control"};
 
     //!=== Signals ===!//
-    sc_port<sc_signal_in_if<bool>> clock;
+    sc_in_clk clock;
 
     //* PC
     sc_signal<bool> JumpCmpPC;

@@ -4,9 +4,9 @@
 SC_MODULE(control)
 {
     sc_in<sc_uint<3>> Operation;
-    sc_out<bool> Reset, JumpCmp, MemLoad, RegWrite, Jump, CtrlMemWrite, UlaOP, RegUla, JumpNeg;
+    sc_in_clk clock;
 
-    sc_port<sc_signal_in_if<bool>> clock;
+    sc_out<bool> Reset, JumpCmp, MemLoad, RegWrite, Jump, CtrlMemWrite, UlaOP, RegUla, JumpNeg;
 
     // methods
     void decode();

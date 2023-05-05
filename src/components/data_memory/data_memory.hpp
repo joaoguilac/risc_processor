@@ -5,11 +5,11 @@ SC_MODULE(data_memory)
     sc_in<sc_uint<5>> AddresLoad, AddresWrite;
     sc_in<sc_int<32>> DataWriteIn;
     sc_in<bool> MemWrite, MemLoad;
+    sc_in_clk clock;
+
     sc_out<sc_int<32>> DataLoadOut;
 
     sc_vector<sc_int<32>> MemoryBank[32];
-
-    sc_port<sc_signal_in_if<bool>> clock;
 
     void control();
 
