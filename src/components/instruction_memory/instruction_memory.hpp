@@ -1,6 +1,8 @@
 #include "systemc.h"
 #include "sysc/utils/sc_vector.h"
 
+#include <vector>
+
 SC_MODULE(instruction_memory)
 {
     sc_in<sc_uint<5>> Address;
@@ -8,7 +10,7 @@ SC_MODULE(instruction_memory)
 
     sc_out<sc_int<32>> InstructionOut;
 
-    sc_vector<sc_int<32>> InstructionBank[32];
+    sc_int<32> InstructionBank[32];
 
     // methods
     void next_instruction();

@@ -13,7 +13,7 @@ SC_MODULE(mux5)
     SC_CTOR(mux5)
     {
         SC_METHOD(select);
-        sensitive << Control;
+        sensitive << Control << Entry1 << Entry2;
     }
 };
 

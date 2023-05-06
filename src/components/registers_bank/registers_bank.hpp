@@ -1,5 +1,7 @@
 #include "systemc.h"
-#include "sysc/utils/sc_vector.h"
+// #include "sysc/utils/sc_vector.h"
+
+#include <vector>
 
 SC_MODULE(registers_bank)
 {
@@ -10,7 +12,7 @@ SC_MODULE(registers_bank)
 
     sc_out<sc_int<32>> DataOut1, DataOut2;
 
-    sc_vector<sc_int<32>> RegistersBank[32];
+    sc_int<32> RegistersBank[32];
 
     // methods
     void control();
@@ -41,18 +43,18 @@ void registers_bank::control()
     }
 }
 
-void ula_load()
+void registers_bank::ula_load()
 {
     DataOut1.write(RegistersBank[LoadAddress1.read()]);
     DataOut2.write(RegistersBank[LoadAddress2.read()]);
 }
 
-void memory_load()
+void registers_bank::memory_load()
 {
-    RegistersBank[WriteAddress.read()].write(WriteData.read());
+    RegistersBank[WriteAddress.read()] = WriteData.read();
 }
 
-void memory_write()
+void registers_bank::memory_write()
 {
     DataOut1.write(RegistersBank[LoadAddress1.read()]);
 }

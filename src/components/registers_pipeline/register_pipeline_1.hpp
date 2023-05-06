@@ -5,6 +5,7 @@ SC_MODULE(register_pipeline_1)
 {
     sc_in<sc_int<32>> InstructionIn;
     sc_in_clk clock;
+
     sc_out<sc_int<32>> InstructionOut;
 
     // methods

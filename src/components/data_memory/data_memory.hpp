@@ -1,5 +1,7 @@
 #include "systemc.h"
 
+#include <vector>
+
 SC_MODULE(data_memory)
 {
     sc_in<sc_uint<5>> AddresLoad, AddresWrite;
@@ -9,7 +11,7 @@ SC_MODULE(data_memory)
 
     sc_out<sc_int<32>> DataLoadOut;
 
-    sc_vector<sc_int<32>> MemoryBank[32];
+    sc_int<32> MemoryBank[32];
 
     void control();
     void memory_write();
@@ -32,7 +34,7 @@ void data_memory::control()
 
 void data_memory::memory_write()
 {
-    MemoryBank[AddresWrite.read()].write(DataWriteIn.read());
+    MemoryBank[AddresWrite.read()] = DataWriteIn.read();
 }
 
 void data_memory::memory_load()
