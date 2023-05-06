@@ -1,27 +1,31 @@
 #include "systemc.h"
 #include "sysc/utils/sc_vector.h"
 
-SC_MODULE(registers)
+SC_MODULE(registers_bank)
 {
     sc_in<sc_uint<5>> LoadAddress1, LoadAddress2, WriteAddress;
     sc_in<sc_int<32>> WriteData;
     sc_in<bool> RegWrite, MemWrite, RegUla;
-    sc_in_clk clk;
+    sc_in_clk clock;
+
     sc_out<sc_int<32>> DataOut1, DataOut2;
 
     sc_vector<sc_int<32>> RegistersBank[32];
 
     // methods
     void control();
+    void ula_load();
+    void memory_load();
+    void memory_write();
 
-    SC_CTOR(registers)
+    SC_CTOR(registers_bank)
     {
         SC_METHOD(control);
-        sensitive << clk.pos().pos();
+        sensitive << clock.pos();
     }
 };
 
-void registers::control()
+void registers_bank::control()
 {
     if (RegWrite.read())
     {

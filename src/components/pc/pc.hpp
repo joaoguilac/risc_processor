@@ -4,7 +4,8 @@ SC_MODULE(pc)
 {
     sc_in<sc_uint<5>> JumpPosition;
     sc_in<bool> Jump, JumpCmp, Reset;
-    sc_in_clk clk;
+    sc_in_clk clock;
+
     sc_out<sc_uint<5>> InstructionAddres;
 
     sc_uint<5> counter = 0;
@@ -15,7 +16,7 @@ SC_MODULE(pc)
     SC_CTOR(pc)
     {
         SC_METHOD(next_instruction);
-        sensitive << Reset << clk.pos();
+        sensitive << Reset << clock.pos();
     }
 };
 

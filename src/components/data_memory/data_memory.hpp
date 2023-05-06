@@ -5,18 +5,18 @@ SC_MODULE(data_memory)
     sc_in<sc_uint<5>> AddresLoad, AddresWrite;
     sc_in<sc_int<32>> DataWriteIn;
     sc_in<bool> MemWrite, MemLoad;
+    sc_in_clk clock;
+
     sc_out<sc_int<32>> DataLoadOut;
 
     sc_vector<sc_int<32>> MemoryBank[32];
-
-    sc_in_clk clk;
 
     void control();
 
     SC_CTOR(data_memory)
     {
         SC_METHOD(control);
-        sensitive << clk.pos().pos();
+        sensitive << clock.pos();
     }
 };
 

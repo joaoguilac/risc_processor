@@ -4,7 +4,8 @@
 SC_MODULE(control)
 {
     sc_in<sc_uint<3>> Operation;
-    sc_in_clk clk;
+    sc_in_clk clock;
+
     sc_out<bool> Reset, JumpCmp, MemLoad, RegWrite, Jump, CtrlMemWrite, UlaOP, RegUla, JumpNeg;
 
     // methods
@@ -13,7 +14,7 @@ SC_MODULE(control)
     SC_CTOR(control)
     {
         SC_METHOD(decode);
-        sensitive << clk.pos().pos();
+        sensitive << clock.pos();
     }
 };
 

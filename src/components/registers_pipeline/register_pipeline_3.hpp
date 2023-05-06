@@ -7,13 +7,12 @@ SC_MODULE(register_pipeline_3)
     sc_in<sc_uint<5>> AddrMemLoadFonteIn, AddrMuxRegIn, AddrMemWriteIn;
     sc_in<bool> JumpResultIn;
     sc_in<bool> CtrlMemWriteIn, JumpIn, RegWriteIn, MemLoadIn, JumpCmpIn;
+    sc_in_clk clock;
 
     sc_out<sc_int<32>> InstructionOut, DataMuxOut;
     sc_out<sc_uint<5>> AddrMemLoadFonteOut, AddrMuxRegOut, AddrMemWriteOut;
     sc_out<bool> JumpResultOut;
     sc_out<bool> CtrlMemWriteOut, JumpOut, RegWriteOut, MemLoadOut, JumpCmpOut;
-
-    sc_in_clk clk;
 
     // methods
     void pass_instruction();
@@ -21,7 +20,7 @@ SC_MODULE(register_pipeline_3)
     SC_CTOR(register_pipeline_3)
     {
         SC_METHOD(pass_instruction);
-        sensitive << clk.pos();
+        sensitive << clock.pos();
     }
 };
 
