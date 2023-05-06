@@ -12,6 +12,8 @@ SC_MODULE(data_memory)
     sc_vector<sc_int<32>> MemoryBank[32];
 
     void control();
+    void memory_write();
+    void memory_load();
 
     SC_CTOR(data_memory)
     {
@@ -28,12 +30,12 @@ void data_memory::control()
         memory_load();
 }
 
-void memory_write()
+void data_memory::memory_write()
 {
     MemoryBank[AddresWrite.read()].write(DataWriteIn.read());
 }
 
-void memory_load()
+void data_memory::memory_load()
 {
     DataLoadOut.write(MemoryBank[AddresLoad.read()]);
 }

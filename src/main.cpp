@@ -82,19 +82,19 @@ int decode(string instruction)
 	}
 	else if (words.size() == 2) // Jump
 	{
-		if (words[0] == "AND")
+		if (words[0] == "J")
 		{
 			tmpInt = 3;
 
 			decodedInstruction |= (tmpInt << 29);
 		}
-		else if (words[0] == "OR")
+		else if (words[0] == "JN")
 		{
 			tmpInt = 37;
 
 			decodedInstruction |= (tmpInt << 26);
 		}
-		else if (words[0] == "XOR")
+		else if (words[0] == "JZ")
 		{
 			tmpInt = 45;
 			decodedInstruction |= (tmpInt << 26);
@@ -110,7 +110,7 @@ int sc_main(int argc, char *argv[])
 {
 
 	fstream fileData;
-	vector<int> dataMem;
+	vector<int> dataMem; // Vetor com dados para entrarem na memória de dados
 	fileData.open("data_memory.txt");
 	if (!fileData)
 	{
@@ -123,7 +123,7 @@ int sc_main(int argc, char *argv[])
 		dataMem.push_back(data);
 
 	fstream fileInstruction;
-	vector<int> dataInstruction;
+	vector<int> dataInstruction; // Vetor com dados para entrarem na memória de instruções
 	string fileName = argv[1];
 	fileInstruction.open(fileName);
 	if (!fileInstruction)
