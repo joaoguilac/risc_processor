@@ -1,5 +1,4 @@
 #include "systemc.h"
-<<<<<<< HEAD
 #include "./processor.cpp"
 #include <string>
 #include <vector>
@@ -139,18 +138,10 @@ int sc_main(int argc, char *argv[])
 		instInt = decode(instStr);
 		dataInstruction.push_back(instInt);
 	}
-=======
 
-#include "processor.cpp"
+	processor prc{"Processor"};
+	sc_clock clock("clock", 10, SC_NS, 0.5);
+	prc.clock(clock);
 
-int sc_main(int argc, char *argv[])
-{
-    std:cout "Initializing processor..." << endl;
->>>>>>> e9dc2eba11540e8ca8925d29442cb6e5eb41da65
-
-    processor prc{"Processor"};
-    sc_clock clock("clock", 10, SC_NS, 0.5);
-    prc.clock(clock);
-
-    return 0;
+	return 0;
 }
