@@ -137,7 +137,15 @@ SC_MODULE(processor)
         Control.Operation(OperationControl);
         Control.clock(clock);
         //== Out
-        // TODO
+        Control.Reset(ResetControl);
+        Control.JumpCmp(JumpCmpControl);
+        Control.MemLoad(MemLoadControl);
+        Control.RegWrite(RegWriteControl);
+        Control.Jump(JumpControl);
+        Control.CtrlMemWrite(CtrlMemWriteControl);
+        Control.UlaOP(UlaOPControl);
+        Control.RegUla(RegUlaControl);
+        Control.JumpNeg(JumpNegControl);
 
         //* Registers Bank
         //== In
