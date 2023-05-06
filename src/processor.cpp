@@ -1,16 +1,16 @@
 #include "systemc.h"
-#include "control/control.hpp"
-#include "data_memory/data_memory.hpp"
-#include "instruction_memory/instruction_memory.hpp"
-#include "mux/mux32.hpp"
-#include "mux/mux5.hpp"
-#include "pc/pc.hpp"
-#include "registers/registers.hpp"
-#include "registers_pipeline/register_pipeline_1.hpp"
-#include "registers_pipeline/register_pipeline_2.hpp"
-#include "registers_pipeline/register_pipeline_3.hpp"
-#include "registers_pipeline/register_pipeline_4.hpp"
-#include "ula/ula.hpp"
+#include "components/control/control.hpp"
+#include "components/data_memory/data_memory.hpp"
+#include "components/instruction_memory/instruction_memory.hpp"
+#include "components/mux/mux32.hpp"
+#include "components/mux/mux5.hpp"
+#include "components/pc/pc.hpp"
+#include "components/registers/registers.hpp"
+#include "components/registers_pipeline/register_pipeline_1.hpp"
+#include "components/registers_pipeline/register_pipeline_2.hpp"
+#include "components/registers_pipeline/register_pipeline_3.hpp"
+#include "components/registers_pipeline/register_pipeline_4.hpp"
+#include "components/ula/ula.hpp"
 
 SC_MODULE(processor)
 {
@@ -131,6 +131,15 @@ SC_MODULE(processor)
         OperationControl = Aux3Uint;
         Control.Operation(OperationControl);
         ////Out
+        Control.Reset(ResetControl);
+        Control.JumpCmp(JumpCmpControl);
+        Control.MemLoad(MemLoadControl);
+        Control.RegWrite(RegWriteControl);
+        Control.Jump(JumpControl);
+        Control.CtrlMemWrite(CtrlMemWriteControl);
+        Control.UlaOP(UlaOPControl);
+        Control.RegUla(RegUlaControl);
+        Control.JumpNeg(JumpNegControl);
 
         // Register Bank
         //// In

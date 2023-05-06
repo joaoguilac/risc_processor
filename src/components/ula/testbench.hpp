@@ -62,6 +62,6 @@ SC_MODULE(testbench) {
 
 	SC_CTOR(testbench) {
 		SC_THREAD(TbGen);
-		sensitive << Clk.pos();
+		sensitive << clk.pos().pos();
 	}
 };

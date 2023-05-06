@@ -11,7 +11,7 @@ SC_MODULE(register_pipeline_4)
     sc_out<sc_uint<5>> AddrMuxRegOut;
     sc_out<bool> RegWriteOut, MemLoadOut;
 
-    sc_clock clk("clk", 10, SC_NS, 0.5);
+    sc_in_clk clk;
 
     // methods
     void pass_instruction();
@@ -19,7 +19,7 @@ SC_MODULE(register_pipeline_4)
     SC_CTOR(register_pipeline_4)
     {
         SC_METHOD(pass_instruction);
-        sensitive << clk;
+        sensitive << clk.pos();
     }
 };
 
