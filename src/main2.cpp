@@ -29,6 +29,8 @@ int decode(string instruction)
     // Para instruções de Mémoria, ela deve vir como "Operação" "Registrador Fonte" "Registrador Destino"
     // Para instruções de Jump, deve vir como "Operação" "Posição"
 
+    // cout << "Inst: " << instruction << " ";
+
     int decodedInstruction = 0;
     int tmpInt;
 
@@ -36,11 +38,13 @@ int decode(string instruction)
     stringstream ss(instruction);
     vector<string> words;
 
-    while (getline(ss, tmp, ','))
+    while (getline(ss, tmp, ' '))
     {
         words.push_back(tmp);
     }
-
+    for (auto word : words)
+        cout << word << " ";
+    cout << "Size " << words.size() << " ";
     if (words.size() == 4) // Ula
     {
         if (words[0] == "AND")
@@ -460,10 +464,11 @@ int sc_main(int argc, char *argv[])
     string instStr;
     int instInt;
     i = 0;
-    while (fileInstruction >> instStr)
+    while (getline(fileInstruction, instStr))
     {
         instInt = decode(instStr);
         InstMemory.InstructionBank[i] = instInt;
+        cout << "Code " << InstMemory.InstructionBank[i] << endl;
         i++;
     }
 

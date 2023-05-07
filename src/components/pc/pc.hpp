@@ -8,7 +8,7 @@ SC_MODULE(pc)
 
     sc_out<sc_uint<5>> InstructionAddres;
 
-    sc_uint<5> counter = 0;
+    sc_uint<5> counter = -1;
 
     // methods
     void next_instruction();
