@@ -41,8 +41,8 @@
 
 //     //* PC
 //     sc_signal<bool> JumpCmpPC;
-//     sc_signal<sc_uint<5>> InstructionAddresPC;
-//     sc_signal<sc_uint<5>> JumpPositionPC; // IN
+//     sc_signal<sc_int<5>> InstructionAddresPC;
+//     sc_signal<sc_int<5>> JumpPositionPC; // IN
 
 //     //* Instruction Memory
 //     sc_signal<sc_int<32>> InstructionOutInstMemory;
@@ -52,32 +52,32 @@
 
 //     //* Control
 //     sc_signal<bool> ResetControl, JumpCmpControl, MemLoadControl, RegWriteControl, JumpControl, CtrlMemWriteControl, UlaOPControl, RegUlaControl, JumpNegControl;
-//     sc_signal<sc_uint<3>> OperationControl; // IN
+//     sc_signal<sc_int<3>> OperationControl; // IN
 
 //     //* Registers Bank
 //     sc_signal<sc_int<32>> DataOut1RegisterBank, DataOut2RegisterBank;
-//     sc_signal<sc_uint<5>> LoadAddress1RegisterBank, LoadAddress2RegisterBank, WriteAddressRegisterBank; // IN
+//     sc_signal<sc_int<5>> LoadAddress1RegisterBank, LoadAddress2RegisterBank, WriteAddressRegisterBank; // IN
 
 //     //* Register Pipeline 2
 //     sc_signal<sc_int<32>> InstructionOutPipe2, DataOut1Pipe2, DataOut2Pipe2;
-//     sc_signal<sc_uint<5>> AddrMemLoadFonteOutPipe2, AddrUlaRegOutPipe2, AddrMemLoadRegOutPipe2, AddrMemWriteOutPipe2;
+//     sc_signal<sc_int<5>> AddrMemLoadFonteOutPipe2, AddrUlaRegOutPipe2, AddrMemLoadRegOutPipe2, AddrMemWriteOutPipe2;
 //     sc_signal<bool> UlaOPOutPipe2, CtrlMemWriteOutPipe2, JumpOutPipe2, RegWriteOutPipe2, MemLoadOutPipe2, JumpCmpOutPipe2, JumpNegOutPipe2;
-//     sc_signal<sc_uint<5>> AddrMemLoadFonteInPipe2, AddrUlaRegInPipe2, AddrMemLoadRegInPipe2, AddrMemWriteInPipe2; // IN
+//     sc_signal<sc_int<5>> AddrMemLoadFonteInPipe2, AddrUlaRegInPipe2, AddrMemLoadRegInPipe2, AddrMemWriteInPipe2; // IN
 
 //     //* Ula
 //     sc_signal<bool> JumpResultUla;
 //     sc_signal<sc_int<32>> DataOutUla;
-//     sc_signal<sc_uint<3>> UlaInstUla; // IN
+//     sc_signal<sc_int<3>> UlaInstUla; // IN
 
 //     //* Mux 5 Ula
-//     sc_signal<sc_uint<5>> OutMux5;
+//     sc_signal<sc_int<5>> OutMux5;
 
 //     //* Mux 32 Ula
 //     sc_signal<sc_int<32>> Out1Mux32;
 
 //     //* Register Pipeline 3
 //     sc_signal<sc_int<32>> InstructionOutPipe3, DataMuxOutPipe3;
-//     sc_signal<sc_uint<5>> AddrMemLoadFonteOutPipe3, AddrMuxRegOutPipe3, AddrMemWriteOutPipe3;
+//     sc_signal<sc_int<5>> AddrMemLoadFonteOutPipe3, AddrMuxRegOutPipe3, AddrMemWriteOutPipe3;
 //     sc_signal<bool> JumpResultOutPipe3;
 //     sc_signal<bool> CtrlMemWriteOutPipe3, JumpOutPipe3, RegWriteOutPipe3, MemLoadOutPipe3, JumpCmpOutPipe3;
 
@@ -86,7 +86,7 @@
 
 //     //* Register Pipeline 4
 //     sc_signal<sc_int<32>> DataUlaOutPipe4, DataMemOutPipe4;
-//     sc_signal<sc_uint<5>> AddrMuxRegOutPipe4;
+//     sc_signal<sc_int<5>> AddrMuxRegOutPipe4;
 //     sc_signal<bool> RegWriteOutPipe4, MemLoadOutPipe4;
 
 //     //* Mux 32 Reg
@@ -101,13 +101,13 @@
 //         sc_int<32> Aux32Int;
 //         sc_int<5> Aux5Int;
 //         sc_int<3> Aux3Int;
-//         sc_uint<5> Aux5Uint;
-//         sc_uint<3> Aux3Uint;
+//         sc_int<5> Aux5Uint;
+//         sc_int<3> Aux3Uint;
 
 //         //* PC
 //         Aux32BitVector = InstructionOutPipe2;
 //         Aux5BitVector = Aux32BitVector.range(25, 21);
-//         Aux5Uint = Aux5BitVector.to_uint();
+//         Aux5Uint = Aux5BitVector.to_int();
 //         JumpPositionPC = Aux5Uint;
 //         //== In
 //         PC.JumpPosition(JumpPositionPC);
@@ -139,7 +139,7 @@
 //         Aux32Int = InstructionOutPipe1;
 //         Aux32BitVector = Aux32Int;
 //         Aux3BitVector = Aux32BitVector.range(28, 26);
-//         Aux3Uint = Aux3BitVector.to_uint();
+//         Aux3Uint = Aux3BitVector.to_int();
 //         OperationControl = Aux3Uint;
 //         Control.Operation(OperationControl);
 //         Control.clock(clock);
@@ -160,12 +160,12 @@
 //         Aux32BitVector = Aux32Int;
 
 //         Aux5BitVector = Aux32BitVector.range(25, 21);
-//         Aux5Uint = Aux5BitVector.to_uint();
+//         Aux5Uint = Aux5BitVector.to_int();
 //         LoadAddress1RegisterBank = Aux5Uint;
 //         RegistersBank.LoadAddress1(LoadAddress1RegisterBank);
 
 //         Aux5BitVector = Aux32BitVector.range(20, 16);
-//         Aux5Uint = Aux5BitVector.to_uint();
+//         Aux5Uint = Aux5BitVector.to_int();
 //         LoadAddress2RegisterBank = Aux5Uint;
 //         RegistersBank.LoadAddress2(LoadAddress2RegisterBank);
 //         RegistersBank.WriteAddress(AddrMuxRegOutPipe4);
@@ -188,22 +188,22 @@
 //         RegPipeline2.DataOut2In(DataOut2RegisterBank);
 
 //         Aux5BitVector = Aux32BitVector.range(25, 21);
-//         Aux5Uint = Aux5BitVector.to_uint();
+//         Aux5Uint = Aux5BitVector.to_int();
 //         AddrMemLoadFonteInPipe2 = Aux5Uint;
 //         RegPipeline2.AddrMemLoadFonteIn(AddrMemLoadFonteInPipe2);
 
 //         Aux5BitVector = Aux32BitVector.range(15, 11);
-//         Aux5Uint = Aux5BitVector.to_uint();
+//         Aux5Uint = Aux5BitVector.to_int();
 //         AddrUlaRegInPipe2 = Aux5Uint;
 //         RegPipeline2.AddrUlaRegIn(AddrUlaRegInPipe2);
 
 //         Aux5BitVector = Aux32BitVector.range(20, 16);
-//         Aux5Uint = Aux5BitVector.to_uint();
+//         Aux5Uint = Aux5BitVector.to_int();
 //         AddrMemLoadRegInPipe2 = Aux5Uint;
 //         RegPipeline2.AddrMemLoadRegIn(AddrMemLoadRegInPipe2);
 
 //         Aux5BitVector = Aux32BitVector.range(20, 16);
-//         Aux5Uint = Aux5BitVector.to_uint();
+//         Aux5Uint = Aux5BitVector.to_int();
 //         AddrMemWriteInPipe2 = Aux5Uint;
 //         RegPipeline2.AddrMemWriteIn(AddrMemWriteInPipe2);
 
@@ -239,7 +239,7 @@
 //         Aux32Int = InstructionOutPipe2;
 //         Aux32BitVector = Aux32Int;
 //         Aux3BitVector = Aux32BitVector.range(28, 26);
-//         Aux3Uint = Aux3BitVector.to_uint();
+//         Aux3Uint = Aux3BitVector.to_int();
 //         UlaInstUla = Aux3Uint;
 //         Ula.UlaInst(UlaInstUla);
 //         Ula.UlaOP(UlaOPOutPipe2);

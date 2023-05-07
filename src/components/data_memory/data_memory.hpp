@@ -4,7 +4,7 @@
 
 SC_MODULE(data_memory)
 {
-    sc_in<sc_uint<5>> AddresLoad, AddresWrite;
+    sc_in<sc_int<5>> AddresLoad, AddresWrite;
     sc_in<sc_int<32>> DataWriteIn;
     sc_in<bool> MemWrite, MemLoad;
     sc_in_clk clock;

@@ -2,7 +2,7 @@
 
 ## 1- Descrição do Trabalho:
 
-Implementar a arquitetura para um conjunto de instruções (ISA, Instruction-Set Architecture) composta por Parte de Controle e Parte Operativa, compatíveis com a filosofia RISC (Reduced Instruction-Set Computer) e que executam em “Pipeline” o seguinte conjunto de instruções:
+Implementar a arquitetura para um conjunto de instruções (ISA, Instruction-Set Architecture) composta por Parte de Controle e Parte Operativa, compatíveis com a filosofia RISC (Reduced Instruction-Set Computer) e que executam em “Pipeline” o seginte conjunto de instruções:
 
 ```
 AND —> operação booleana AND

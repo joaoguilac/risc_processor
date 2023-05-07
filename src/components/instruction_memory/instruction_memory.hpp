@@ -5,7 +5,7 @@
 
 SC_MODULE(instruction_memory)
 {
-    sc_in<sc_uint<5>> Address;
+    sc_in<sc_int<5>> Address;
     sc_in_clk clock;
 
     sc_out<sc_int<32>> InstructionOut;

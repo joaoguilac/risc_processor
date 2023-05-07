@@ -3,7 +3,7 @@
 SC_MODULE(ula)
 {
     sc_in<sc_int<32>> Op1, Op2;
-    sc_in<sc_uint<3>> UlaInst;
+    sc_in<sc_int<32>> UlaInst;
     sc_in<bool> UlaOP, JumpCmp, JumpNeg;
 
     sc_out<bool> JumpResult;
@@ -21,7 +21,7 @@ SC_MODULE(ula)
 
 void ula::execute()
 {
-    int op = UlaInst.read();
+    int op = UlaInst.read().range(28, 26);
 
     switch (op)
     {

@@ -5,7 +5,8 @@
 
 SC_MODULE(registers_bank)
 {
-    sc_in<sc_uint<5>> LoadAddress1, LoadAddress2, WriteAddress;
+    sc_in<sc_int<32>> LoadAddress1, LoadAddress2;
+    sc_in<sc_int<5>> WriteAddress;
     sc_in<sc_int<32>> WriteData;
     sc_in<bool> RegWrite, MemWrite, RegUla;
     sc_in_clk clock;
@@ -45,8 +46,8 @@ void registers_bank::control()
 
 void registers_bank::ula_load()
 {
-    DataOut1.write(RegistersBank[LoadAddress1.read()]);
-    DataOut2.write(RegistersBank[LoadAddress2.read()]);
+    DataOut1.write(RegistersBank[LoadAddress1.read().range(25, 21)]);
+    DataOut2.write(RegistersBank[LoadAddress2.read().range(20, 16)]);
 }
 
 void registers_bank::memory_load()

@@ -5,7 +5,7 @@
 int sc_main(int argc, char *argv[])
 {
     sc_signal<sc_int<32>> ASig, BSig, SSig;
-    sc_signal<sc_uint<3>> OpSig;
+    sc_signal<sc_int<3>> OpSig;
     sc_clock TestClk("TestClock", 10, SC_NS, 0.5);
 
     // testbench

@@ -3,7 +3,7 @@
 
 SC_MODULE(control)
 {
-    sc_in<sc_uint<3>> Operation;
+    sc_in<sc_int<32>> Operation;
     sc_in_clk clock;
 
     sc_out<bool> Reset, JumpCmp, MemLoad, RegWrite, Jump, CtrlMemWrite, UlaOP, RegUla, JumpNeg;
@@ -20,7 +20,7 @@ SC_MODULE(control)
 
 void control::decode()
 {
-    switch (Operation.read())
+    switch (Operation.read().range(31, 29))
     {
     case 0: // ULA
         Jump.write(0);

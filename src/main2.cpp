@@ -42,9 +42,7 @@ int decode(string instruction)
     {
         words.push_back(tmp);
     }
-    for (auto word : words)
-        cout << word << " ";
-    cout << "Size " << words.size() << " ";
+
     if (words.size() == 4) // Ula
     {
         if (words[0] == "AND")
@@ -149,8 +147,8 @@ int sc_main(int argc, char *argv[])
 
     //* PC
     sc_signal<bool> JumpCmpPC;
-    sc_signal<sc_uint<5>> InstructionAddresPC;
-    sc_signal<sc_uint<5>> JumpPositionPC; // IN
+    sc_signal<sc_int<5>> InstructionAddresPC;
+    sc_signal<sc_int<5>> JumpPositionPC; // IN
 
     //* Instruction Memory
     sc_signal<sc_int<32>> InstructionOutInstMemory;
@@ -160,32 +158,32 @@ int sc_main(int argc, char *argv[])
 
     //* Control
     sc_signal<bool> ResetControl, JumpCmpControl, MemLoadControl, RegWriteControl, JumpControl, CtrlMemWriteControl, UlaOPControl, RegUlaControl, JumpNegControl;
-    sc_signal<sc_uint<3>> OperationControl; // IN
+    sc_signal<sc_int<3>> OperationControl; // IN
 
     //* Registers Bank
     sc_signal<sc_int<32>> DataOut1RegisterBank, DataOut2RegisterBank;
-    sc_signal<sc_uint<5>> LoadAddress1RegisterBank, LoadAddress2RegisterBank, WriteAddressRegisterBank; // IN
+    sc_signal<sc_int<5>> LoadAddress1RegisterBank, LoadAddress2RegisterBank, WriteAddressRegisterBank; // IN
 
     //* Register Pipeline 2
     sc_signal<sc_int<32>> InstructionOutPipe2, DataOut1Pipe2, DataOut2Pipe2;
-    sc_signal<sc_uint<5>> AddrMemLoadFonteOutPipe2, AddrUlaRegOutPipe2, AddrMemLoadRegOutPipe2, AddrMemWriteOutPipe2;
+    sc_signal<sc_int<5>> AddrMemLoadFonteOutPipe2, AddrUlaRegOutPipe2, AddrMemLoadRegOutPipe2, AddrMemWriteOutPipe2;
     sc_signal<bool> UlaOPOutPipe2, CtrlMemWriteOutPipe2, JumpOutPipe2, RegWriteOutPipe2, MemLoadOutPipe2, JumpCmpOutPipe2, JumpNegOutPipe2;
-    sc_signal<sc_uint<5>> AddrMemLoadFonteInPipe2, AddrUlaRegInPipe2, AddrMemLoadRegInPipe2, AddrMemWriteInPipe2; // IN
+    sc_signal<sc_int<5>> AddrMemLoadFonteInPipe2, AddrUlaRegInPipe2, AddrMemLoadRegInPipe2, AddrMemWriteInPipe2; // IN
 
     //* Ula
     sc_signal<bool> JumpResultUla;
     sc_signal<sc_int<32>> DataOutUla;
-    sc_signal<sc_uint<3>> UlaInstUla; // IN
+    sc_signal<sc_int<3>> UlaInstUla; // IN
 
     //* Mux 5 Ula
-    sc_signal<sc_uint<5>> OutMux5;
+    sc_signal<sc_int<5>> OutMux5;
 
     //* Mux 32 Ula
     sc_signal<sc_int<32>> Out1Mux32;
 
     //* Register Pipeline 3
     sc_signal<sc_int<32>> InstructionOutPipe3, DataMuxOutPipe3;
-    sc_signal<sc_uint<5>> AddrMemLoadFonteOutPipe3, AddrMuxRegOutPipe3, AddrMemWriteOutPipe3;
+    sc_signal<sc_int<5>> AddrMemLoadFonteOutPipe3, AddrMuxRegOutPipe3, AddrMemWriteOutPipe3;
     sc_signal<bool> JumpResultOutPipe3;
     sc_signal<bool> CtrlMemWriteOutPipe3, JumpOutPipe3, RegWriteOutPipe3, MemLoadOutPipe3, JumpCmpOutPipe3;
 
@@ -194,7 +192,7 @@ int sc_main(int argc, char *argv[])
 
     //* Register Pipeline 4
     sc_signal<sc_int<32>> DataUlaOutPipe4, DataMemOutPipe4;
-    sc_signal<sc_uint<5>> AddrMuxRegOutPipe4;
+    sc_signal<sc_int<5>> AddrMuxRegOutPipe4;
     sc_signal<bool> RegWriteOutPipe4, MemLoadOutPipe4;
 
     //* Mux 32 Reg
@@ -207,18 +205,13 @@ int sc_main(int argc, char *argv[])
     sc_int<32> Aux32Int;
     sc_int<5> Aux5Int;
     sc_int<3> Aux3Int;
-    sc_uint<5> Aux5Uint;
-    sc_uint<3> Aux3Uint;
+    sc_int<5> Aux5Uint;
+    sc_int<3> Aux3Uint;
 
     //* PC
-    Aux32BitVector = InstructionOutPipe2;
-    Aux5BitVector = Aux32BitVector.range(25, 21);
-    Aux5Uint = Aux5BitVector.to_uint();
-    JumpPositionPC = Aux5Uint;
     //== In
-    PC.JumpPosition(JumpPositionPC);
+    PC.JumpPosition(InstructionOutPipe2);
     PC.Jump(JumpOutPipe3);
-
     JumpCmpPC = JumpResultOutPipe3 & JumpCmpOutPipe3;
     PC.JumpCmp(JumpCmpPC);
     PC.Reset(ResetControl);
@@ -242,12 +235,7 @@ int sc_main(int argc, char *argv[])
 
     //* Control
     //== In
-    Aux32Int = InstructionOutPipe1;
-    Aux32BitVector = Aux32Int;
-    Aux3BitVector = Aux32BitVector.range(28, 26);
-    Aux3Uint = Aux3BitVector.to_uint();
-    OperationControl = Aux3Uint;
-    Control.Operation(OperationControl);
+    Control.Operation(InstructionOutPipe1);
     Control.clock(clock);
     //== Out
     Control.Reset(ResetControl);
@@ -264,16 +252,8 @@ int sc_main(int argc, char *argv[])
     //== In
     Aux32Int = InstructionOutPipe1;
     Aux32BitVector = Aux32Int;
-
-    Aux5BitVector = Aux32BitVector.range(25, 21);
-    Aux5Uint = Aux5BitVector.to_uint();
-    LoadAddress1RegisterBank = Aux5Uint;
-    RegistersBank.LoadAddress1(LoadAddress1RegisterBank);
-
-    Aux5BitVector = Aux32BitVector.range(20, 16);
-    Aux5Uint = Aux5BitVector.to_uint();
-    LoadAddress2RegisterBank = Aux5Uint;
-    RegistersBank.LoadAddress2(LoadAddress2RegisterBank);
+    RegistersBank.LoadAddress1(InstructionOutPipe1);
+    RegistersBank.LoadAddress2(InstructionOutPipe1);
     RegistersBank.WriteAddress(AddrMuxRegOutPipe4);
     RegistersBank.WriteData(Out2Mux32);
     RegistersBank.RegWrite(RegWriteOutPipe3);
@@ -288,31 +268,13 @@ int sc_main(int argc, char *argv[])
     //== In
     Aux32Int = InstructionOutPipe1;
     Aux32BitVector = Aux32Int;
-
     RegPipeline2.InstructionIn(InstructionOutPipe1);
     RegPipeline2.DataOut1In(DataOut1RegisterBank);
     RegPipeline2.DataOut2In(DataOut2RegisterBank);
-
-    Aux5BitVector = Aux32BitVector.range(25, 21);
-    Aux5Uint = Aux5BitVector.to_uint();
-    AddrMemLoadFonteInPipe2 = Aux5Uint;
-    RegPipeline2.AddrMemLoadFonteIn(AddrMemLoadFonteInPipe2);
-
-    Aux5BitVector = Aux32BitVector.range(15, 11);
-    Aux5Uint = Aux5BitVector.to_uint();
-    AddrUlaRegInPipe2 = Aux5Uint;
-    RegPipeline2.AddrUlaRegIn(AddrUlaRegInPipe2);
-
-    Aux5BitVector = Aux32BitVector.range(20, 16);
-    Aux5Uint = Aux5BitVector.to_uint();
-    AddrMemLoadRegInPipe2 = Aux5Uint;
-    RegPipeline2.AddrMemLoadRegIn(AddrMemLoadRegInPipe2);
-
-    Aux5BitVector = Aux32BitVector.range(20, 16);
-    Aux5Uint = Aux5BitVector.to_uint();
-    AddrMemWriteInPipe2 = Aux5Uint;
-    RegPipeline2.AddrMemWriteIn(AddrMemWriteInPipe2);
-
+    RegPipeline2.AddrMemLoadFonteIn(InstructionOutPipe1);
+    RegPipeline2.AddrUlaRegIn(InstructionOutPipe1);
+    RegPipeline2.AddrMemLoadRegIn(InstructionOutPipe1);
+    RegPipeline2.AddrMemWriteIn(InstructionOutPipe1);
     RegPipeline2.UlaOPIn(UlaOPControl);
     RegPipeline2.CtrlMemWriteIn(CtrlMemWriteControl);
     RegPipeline2.JumpIn(JumpControl);
@@ -341,13 +303,7 @@ int sc_main(int argc, char *argv[])
     //== In
     Ula.Op1(DataOut1Pipe2);
     Ula.Op2(DataOut2Pipe2);
-
-    Aux32Int = InstructionOutPipe2;
-    Aux32BitVector = Aux32Int;
-    Aux3BitVector = Aux32BitVector.range(28, 26);
-    Aux3Uint = Aux3BitVector.to_uint();
-    UlaInstUla = Aux3Uint;
-    Ula.UlaInst(UlaInstUla);
+    Ula.UlaInst(InstructionOutPipe2);
     Ula.UlaOP(UlaOPOutPipe2);
     Ula.JumpCmp(JumpCmpOutPipe2);
     Ula.JumpNeg(JumpNegOutPipe2);
@@ -468,7 +424,6 @@ int sc_main(int argc, char *argv[])
     {
         instInt = decode(instStr);
         InstMemory.InstructionBank[i] = instInt;
-        cout << "Code " << InstMemory.InstructionBank[i] << endl;
         i++;
     }
 
@@ -479,25 +434,58 @@ int sc_main(int argc, char *argv[])
 
     sc_trace(fp, clock, "clock");
 
+    // PC
     sc_trace(fp, PC.Reset, "PCReset");
     sc_trace(fp, PC.JumpCmp, "PCJumpCmp");
     sc_trace(fp, PC.Jump, "PCJump");
     sc_trace(fp, PC.counter, "PCcounter");
     sc_trace(fp, PC.InstructionAddres, "PCInstruction");
+    // Instruction emory
     sc_trace(fp, InstMemory.Address, "InstMemAddress");
     sc_trace(fp, InstMemory.InstructionOut, "InstMemInstOut");
-    sc_trace(fp, RegPipeline1.InstructionIn, "RegPip1InstIn");
-    sc_trace(fp, RegPipeline1.InstructionOut, "RegPip1InstOut");
-    sc_trace(fp, RegistersBank.LoadAddress1, "LoadAddress1");
-    sc_trace(fp, RegistersBank.LoadAddress2, "LoadAddress2");
-    sc_trace(fp, RegistersBank.WriteAddress, "WriteAddress");
-    sc_trace(fp, RegistersBank.WriteData, "WriteData");
-    sc_trace(fp, RegistersBank.RegWrite, "RegWrite");
-    sc_trace(fp, RegistersBank.MemWrite, "MemWrite");
-    sc_trace(fp, RegistersBank.RegUla, "RegUla");
-    sc_trace(fp, RegistersBank.DataOut1, "registerDataOut2");
-    sc_trace(fp, RegistersBank.DataOut2, "registerDataOut2");
-    sc_trace(fp, DataMemory.DataWriteIn, "DataWriteIn");
+    // Pipeline 1
+    sc_trace(fp, RegPipeline1.InstructionIn, "Pipe1InstructionIn");
+    sc_trace(fp, RegPipeline1.InstructionOut, "Pipe1InstructionOut");
+    // Register Bank
+    sc_trace(fp, RegistersBank.LoadAddress1, "RegLoadAddress1");
+    sc_trace(fp, RegistersBank.LoadAddress2, "RegLoadAddress2");
+    sc_trace(fp, RegistersBank.WriteAddress, "RegWriteAddress");
+    sc_trace(fp, RegistersBank.WriteData, "RegWriteData");
+    sc_trace(fp, RegistersBank.RegWrite, "RegRegWrite");
+    sc_trace(fp, RegistersBank.MemWrite, "RegMemWrite");
+    sc_trace(fp, RegistersBank.RegUla, "RegRegUla");
+    sc_trace(fp, RegistersBank.DataOut1, "RegregisterDataOut2");
+    sc_trace(fp, RegistersBank.DataOut2, "RegregisterDataOut2");
+    // Control
+    sc_trace(fp, Control.Reset, "ControlReset");
+    sc_trace(fp, Control.JumpCmp, "ControlJumpCmp");
+    sc_trace(fp, Control.MemLoad, "ControlMemLoad");
+    sc_trace(fp, Control.RegWrite, "ControlRegWrite");
+    sc_trace(fp, Control.Jump, "ControlJump");
+    sc_trace(fp, Control.CtrlMemWrite, "ControlCtrlMemWrite");
+    sc_trace(fp, Control.UlaOP, "ControlUlaOP");
+    sc_trace(fp, Control.RegUla, "ControlRegUla");
+    sc_trace(fp, Control.JumpNeg, "ControlJumpNeg");
+
+    // Pipeline2
+    sc_trace(fp, RegPipeline2.InstructionOut, "Pipe2InstructionOut");
+    sc_trace(fp, RegPipeline2.DataOut1, "Pipe2DataOut1");
+    sc_trace(fp, RegPipeline2.DataOut2, "Pipe2DataOut2");
+    sc_trace(fp, RegPipeline2.AddrMemLoadFonteOut, "Pipe2AddrMemLoadFonteOut");
+    sc_trace(fp, RegPipeline2.AddrUlaRegOut, "Pipe2AddrUlaRegOut");
+    sc_trace(fp, RegPipeline2.AddrMemLoadRegOut, "Pipe2AddrMemLoadRegOut");
+    sc_trace(fp, RegPipeline2.AddrMemWriteOut, "Pipe2AddrMemWriteOut");
+    sc_trace(fp, RegPipeline2.UlaOPOut, "Pipe2UlaOPOut");
+    sc_trace(fp, RegPipeline2.CtrlMemWriteOut, "Pipe2CtrlMemWriteOut");
+    sc_trace(fp, RegPipeline2.JumpOut, "Pipe2JumpOut");
+    sc_trace(fp, RegPipeline2.RegWriteOut, "Pipe2RegWriteOut");
+    sc_trace(fp, RegPipeline2.MemLoadOut, "Pipe2MemLoadOut");
+    sc_trace(fp, RegPipeline2.JumpCmpOut, "Pipe2JumpCmpOut");
+    sc_trace(fp, RegPipeline2.JumpNegOut, "Pipe2JumpNegOut");
+
+    // Data Memory
+    sc_trace(fp, DataMemory.DataWriteIn, "DataMemDataWriteIn");
+    // Ula
     sc_trace(fp, Ula.Op1, "UlaOp1");
     sc_trace(fp, Ula.Op2, "UlaOp2");
     sc_trace(fp, Ula.UlaInst, "UlaInst");
