@@ -1,0 +1,10 @@
+LD 15 1
+LD 27 2
+J 7
+OR 1 2 4
+ST 2 7
+ST 3 8
+ADD 1 3 5
+ADD 2 3 6
+ST 2 8
+ST 3 9

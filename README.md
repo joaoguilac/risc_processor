@@ -18,8 +18,16 @@ make FILE=NOME_DO_ARQUIVO EXECUTABLE=NOME_DO_EXECUTAVEL
 ### Manual
 
 ```bash
-g++ -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -o <arquivo> <arquivo>.cpp -lsystemc -lm
+cd src/
+g++ -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -o main main.cpp -lsystemc -lm
 ```
+
+### Carregamento de dados
+
+```bash
+./main ../data/<algoritmo>.dat
+```
+São disponívei 3 algoritmos na pasta data.
 
 ### Execução
 
@@ -28,5 +36,3 @@ Após a execução, será gerado um arquivo de onda após a compilação, para e
 ```bash
 gtkwave wave.vcd
 ```
-
-OBS: Após execução e compilação, mova os arquivos gerados para a pasta `build`, para não serem subidos pro git.
