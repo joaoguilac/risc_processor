@@ -237,7 +237,6 @@ int sc_main(int argc, char *argv[])
     //* Control
     //== In
     Control.Operation(InstructionOutPipe1);
-
     Control.clock(clock);
     //== Out
     Control.Reset(ResetControl);
