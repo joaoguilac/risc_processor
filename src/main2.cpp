@@ -479,7 +479,15 @@ int sc_main(int argc, char *argv[])
 
     sc_trace(fp, clock, "clock");
 
-    sc_trace(fp, DataMemory.DataWriteIn, "DataWriteIn");
+    sc_trace(fp, PC.Reset, "PCReset");
+    sc_trace(fp, PC.JumpCmp, "PCJumpCmp");
+    sc_trace(fp, PC.Jump, "PCJump");
+    sc_trace(fp, PC.counter, "PCcounter");
+    sc_trace(fp, PC.InstructionAddres, "PCInstruction");
+    sc_trace(fp, InstMemory.Address, "InstMemAddress");
+    sc_trace(fp, InstMemory.InstructionOut, "InstMemInstOut");
+    sc_trace(fp, RegPipeline1.InstructionIn, "RegPip1InstIn");
+    sc_trace(fp, RegPipeline1.InstructionOut, "RegPip1InstOut");
     sc_trace(fp, RegistersBank.LoadAddress1, "LoadAddress1");
     sc_trace(fp, RegistersBank.LoadAddress2, "LoadAddress2");
     sc_trace(fp, RegistersBank.WriteAddress, "WriteAddress");
@@ -489,6 +497,7 @@ int sc_main(int argc, char *argv[])
     sc_trace(fp, RegistersBank.RegUla, "RegUla");
     sc_trace(fp, RegistersBank.DataOut1, "registerDataOut2");
     sc_trace(fp, RegistersBank.DataOut2, "registerDataOut2");
+    sc_trace(fp, DataMemory.DataWriteIn, "DataWriteIn");
     sc_trace(fp, Ula.Op1, "UlaOp1");
     sc_trace(fp, Ula.Op2, "UlaOp2");
     sc_trace(fp, Ula.UlaInst, "UlaInst");

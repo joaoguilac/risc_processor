@@ -24,7 +24,7 @@ void pc::next_instruction()
 {
     if (Reset.read())
     {
-        counter = 0;
+        counter = -1;
     }
     else
     {
