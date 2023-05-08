@@ -14,7 +14,7 @@ SC_MODULE(control)
     SC_CTOR(control)
     {
         SC_METHOD(decode);
-        sensitive << clock.pos();
+        sensitive << clock.pos() << Operation;
     }
 };
 

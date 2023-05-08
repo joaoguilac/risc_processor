@@ -458,6 +458,7 @@ int sc_main(int argc, char *argv[])
     sc_trace(fp, RegistersBank.DataOut1, "RegBankregisterDataOut1");
     sc_trace(fp, RegistersBank.DataOut2, "RegBankregisterDataOut2");
     // Control
+    sc_trace(fp, Control.Operation, "ControlOperationControl");
     sc_trace(fp, Control.Reset, "ControlReset");
     sc_trace(fp, Control.JumpCmp, "ControlJumpCmp");
     sc_trace(fp, Control.MemLoad, "ControlMemLoad");
