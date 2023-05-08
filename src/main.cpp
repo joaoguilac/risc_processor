@@ -143,11 +143,10 @@ int sc_main(int argc, char *argv[])
     testbench TestBench("TestBench");
 
     //!=== Signals ===!//
-    sc_clock clock("clock", 10, SC_NS, 0.5);
-
     //* PC
+    sc_clock clock("clock", 10, SC_NS, 0.5);
     sc_signal<bool> JumpCmpPC;
-    sc_signal<sc_int<5>> InstructionAddresPC;
+    sc_signal<sc_int<5>> InstructionAddressPC;
     sc_signal<sc_int<5>> JumpPositionPC; // IN
 
     //* Instruction Memory
@@ -218,12 +217,11 @@ int sc_main(int argc, char *argv[])
     PC.Reset(ResetControl);
     PC.clock(clock);
     //== Out
-    PC.InstructionAddres(InstructionAddresPC);
+    PC.InstructionAddress(InstructionAddressPC);
 
     //* Instruction Memory
     //== In
-    InstMemory.Address(InstructionAddresPC);
-    InstMemory.clock(clock);
+    InstMemory.Address(InstructionAddressPC);
     //== Out
     InstMemory.InstructionOut(InstructionOutInstMemory);
 
@@ -260,7 +258,6 @@ int sc_main(int argc, char *argv[])
     RegistersBank.RegWrite(RegWriteOutPipe3);
     RegistersBank.MemWrite(CtrlMemWriteControl);
     RegistersBank.RegUla(RegUlaControl);
-    RegistersBank.clock(clock);
     //== Out
     RegistersBank.DataOut1(DataOut1RegisterBank);
     RegistersBank.DataOut2(DataOut2RegisterBank);
@@ -357,12 +354,11 @@ int sc_main(int argc, char *argv[])
 
     //* Data Memory
     //== In
-    DataMemory.AddresLoad(AddrMemLoadFonteOutPipe3);
-    DataMemory.AddresWrite(AddrMemWriteOutPipe3);
+    DataMemory.AddressLoad(AddrMemLoadFonteOutPipe3);
+    DataMemory.AddressWrite(AddrMemWriteOutPipe3);
     DataMemory.DataWriteIn(DataMuxOutPipe3);
     DataMemory.MemWrite(CtrlMemWriteOutPipe3);
     DataMemory.MemLoad(MemLoadOutPipe3);
-    DataMemory.clock(clock);
     //== Out
     DataMemory.DataLoadOut(DataLoadOutDataMemory);
 
@@ -441,7 +437,7 @@ int sc_main(int argc, char *argv[])
     sc_trace(fp, PC.JumpCmp, "PCJumpCmp");
     sc_trace(fp, PC.Jump, "PCJump");
     sc_trace(fp, PC.counter, "PCcounter");
-    sc_trace(fp, PC.InstructionAddres, "PCInstruction");
+    sc_trace(fp, PC.InstructionAddress, "PCInstruction");
     // Instruction emory
     sc_trace(fp, InstMemory.Address, "InstMemAddress");
     sc_trace(fp, InstMemory.InstructionOut, "InstMemInstOut");

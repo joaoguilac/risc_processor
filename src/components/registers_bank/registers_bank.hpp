@@ -9,7 +9,6 @@ SC_MODULE(registers_bank)
     sc_in<sc_int<5>> WriteAddress;
     sc_in<sc_int<32>> WriteData;
     sc_in<bool> RegWrite, MemWrite, RegUla;
-    sc_in_clk clock;
 
     sc_out<sc_int<32>> DataOut1, DataOut2;
 
@@ -24,7 +23,7 @@ SC_MODULE(registers_bank)
     SC_CTOR(registers_bank)
     {
         SC_METHOD(control);
-        sensitive << clock.pos();
+        sensitive << LoadAddress1 << LoadAddress2 << WriteAddress << WriteData << RegWrite << MemWrite << RegUla;
     }
 };
 

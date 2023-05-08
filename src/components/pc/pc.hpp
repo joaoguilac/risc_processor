@@ -6,7 +6,7 @@ SC_MODULE(pc)
     sc_in<bool> Jump, JumpCmp, Reset;
     sc_in_clk clock;
 
-    sc_out<sc_int<5>> InstructionAddres;
+    sc_out<sc_int<5>> InstructionAddress;
 
     sc_int<5> counter = -1;
 
@@ -37,5 +37,5 @@ void pc::next_instruction()
             counter++;
         }
     }
-    InstructionAddres.write(counter);
+    InstructionAddress.write(counter);
 }

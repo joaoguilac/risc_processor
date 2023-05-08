@@ -4,10 +4,9 @@
 
 SC_MODULE(data_memory)
 {
-    sc_in<sc_int<5>> AddresLoad, AddresWrite;
+    sc_in<sc_int<5>> AddressLoad, AddressWrite;
     sc_in<sc_int<32>> DataWriteIn;
-    sc_in<bool> MemWrite, MemLoad;
-    sc_in_clk clock;
+    sc_in<bool> MemLoad, MemWrite;
 
     sc_out<sc_int<32>> DataLoadOut;
 
@@ -20,7 +19,7 @@ SC_MODULE(data_memory)
     SC_CTOR(data_memory)
     {
         SC_METHOD(control);
-        sensitive << clock.pos();
+        sensitive << AddressLoad << AddressWrite << DataWriteIn << DataLoadOut;
     }
 };
 
@@ -34,10 +33,10 @@ void data_memory::control()
 
 void data_memory::memory_write()
 {
-    MemoryBank[AddresWrite.read()] = DataWriteIn.read();
+    MemoryBank[AddressWrite.read()] = DataWriteIn.read();
 }
 
 void data_memory::memory_load()
 {
-    DataLoadOut.write(MemoryBank[AddresLoad.read()]);
+    DataLoadOut.write(MemoryBank[AddressLoad.read()]);
 }

@@ -6,7 +6,6 @@
 SC_MODULE(instruction_memory)
 {
     sc_in<sc_int<5>> Address;
-    sc_in_clk clock;
 
     sc_out<sc_int<32>> InstructionOut;
 
@@ -18,7 +17,7 @@ SC_MODULE(instruction_memory)
     SC_CTOR(instruction_memory)
     {
         SC_METHOD(next_instruction);
-        sensitive << clock.pos();
+        sensitive << Address;
     }
 };
 
