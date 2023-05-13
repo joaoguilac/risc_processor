@@ -9,7 +9,7 @@ Implementar a arquitetura para um conjunto de instruções (ISA, Instruction-Set
 - [x] OR —> operação booleana OR
 - [x] XOR —> operação booleana XOR
 - [x] NOT —> operação booleana NOT
-- [ ] CMP —> comparação
+- [x] CMP —> comparação
 - [x] ADD —> soma
 - [x] SUB —> subtração
 
@@ -18,9 +18,9 @@ Implementar a arquitetura para um conjunto de instruções (ISA, Instruction-Set
 - [x] ST —> armazenamento em memória (registradores -> memória)
 
 **Jumps**
-- [ ] J —> salto incondicional
-- [ ] JN —> salto condicional; salta se (N)egativo
-- [ ] JZ —> salto condicional; salta se (Z)ero
+- [x] J —> salto incondicional
+- [x] JN —> salto condicional; salta se (N)egativo
+- [x] JZ —> salto condicional; salta se (Z)ero
 
 
 O pipeline pode ser implementado com 4 ou 5 estágios.
