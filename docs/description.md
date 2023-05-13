@@ -2,33 +2,26 @@
 
 ## 1- Descrição do Trabalho:
 
-Implementar a arquitetura para um conjunto de instruções (ISA, Instruction-Set Architecture) composta por Parte de Controle e Parte Operativa, compatíveis com a filosofia RISC (Reduced Instruction-Set Computer) e que executam em “Pipeline” o seginte conjunto de instruções:
+Implementar a arquitetura para um conjunto de instruções (ISA, Instruction-Set Architecture) composta por Parte de Controle e Parte Operativa, compatíveis com a filosofia RISC (Reduced Instruction-Set Computer) e que executam em “Pipeline” o seguinte conjunto de instruções:
 
-```
-AND —> operação booleana AND
+**Lógicas e Aritméticas**
+- [X] AND —> operação booleana AND
+- [X] OR —> operação booleana OR
+- [x] XOR —> operação booleana XOR
+- [X] NOT —> operação booleana NOT
+- [ ] CMP —> comparação
+- [ ] ADD —> soma
+- [X] SUB —> subtração
 
-OR —> operação booleana OR
+**Memória**
+- [ ] LD —> leitura em memória (memória -> registradores)
+- [ ] ST —> armazenamento em memória (registradores -> memória)
 
-XOR —> operação booleana XOR
+**Jumps**
+- [ ] J —> salto incondicional
+- [ ] JN —> salto condicional; salta se (N)egativo
+- [ ] JZ —> salto condicional; salta se (Z)ero
 
-NOT —> operação booleana NOT
-
-CMP —> comparação
-
-ADD —> soma
-
-SUB —> subtração
-
-LD —> leitura em memória
-
-ST —> armazenamento em memória
-
-J —> salto incondicional
-
-JN —> salto condicional; salta se (N)egativo
-
-JZ —> salto condicional; salta se (Z)ero
-```
 
 O pipeline pode ser implementado com 4 ou 5 estágios.
 
