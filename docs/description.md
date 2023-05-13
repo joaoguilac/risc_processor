@@ -5,17 +5,17 @@
 Implementar a arquitetura para um conjunto de instruções (ISA, Instruction-Set Architecture) composta por Parte de Controle e Parte Operativa, compatíveis com a filosofia RISC (Reduced Instruction-Set Computer) e que executam em “Pipeline” o seguinte conjunto de instruções:
 
 **Lógicas e Aritméticas**
-- [X] AND —> operação booleana AND
-- [X] OR —> operação booleana OR
+- [x] AND —> operação booleana AND
+- [x] OR —> operação booleana OR
 - [x] XOR —> operação booleana XOR
-- [X] NOT —> operação booleana NOT
+- [x] NOT —> operação booleana NOT
 - [ ] CMP —> comparação
-- [ ] ADD —> soma
-- [X] SUB —> subtração
+- [x] ADD —> soma
+- [x] SUB —> subtração
 
 **Memória**
-- [ ] LD —> leitura em memória (memória -> registradores)
-- [ ] ST —> armazenamento em memória (registradores -> memória)
+- [x] LD —> leitura em memória (memória -> registradores)
+- [x] ST —> armazenamento em memória (registradores -> memória)
 
 **Jumps**
 - [ ] J —> salto incondicional
