@@ -25,7 +25,7 @@ using namespace std;
 int decode(string instruction)
 {
     // Faz a decodificação da entrada das instruções
-    // Para instruçõs de ULA ela deve vir "Operação" "Registrador Um" "Registrador Dois" "Registrador Destino"
+    // Para instruções de ULA ela deve vir "Operação" "Registrador Um" "Registrador Dois" "Registrador Destino"
     // Para instruções de Mémoria, ela deve vir como "Operação" "Registrador Fonte" "Registrador Destino"
     // Para instruções de Jump, deve vir como "Operação" "Posição"
 
@@ -410,6 +410,7 @@ int sc_main(int argc, char *argv[])
         RegistersBank.RegistersBank[i] = data;
         i++;
     }
+    fileData.close();
 
     fstream fileInstruction;
     sc_uint<32> instructionMem[32]; // Vetor com dados para entrarem na memória de instruções
@@ -429,6 +430,7 @@ int sc_main(int argc, char *argv[])
         InstMemory.InstructionBank[i] = instInt;
         i++;
     }
+    fileInstruction.close();
 
     //!=== Waveform ===!//
     sc_trace_file *fp;
