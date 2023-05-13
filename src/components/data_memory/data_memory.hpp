@@ -12,9 +12,11 @@ SC_MODULE(data_memory)
 
     sc_int<32> MemoryBank[32];
 
+    // methods
     void control();
     void memory_write();
     void memory_load();
+    void print();
 
     SC_CTOR(data_memory)
     {
@@ -39,4 +41,15 @@ void data_memory::memory_write()
 void data_memory::memory_load()
 {
     DataLoadOut.write(MemoryBank[AddressLoad.read()]);
+}
+
+void data_memory::print()
+{
+    std::cout << "=======Memória de Dados=======" << std::endl;
+    for (size_t i{0}; i < 32; i++)
+    {
+        std::cout << "[" << i << "]"
+                  << "- (" << MemoryBank[i] << ")" << std::endl;
+    }
+    std::cout << std::endl;
 }

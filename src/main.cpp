@@ -493,5 +493,9 @@ int sc_main(int argc, char *argv[])
 
     sc_close_vcd_trace_file(fp);
 
+    std::cout << std::endl;
+    RegistersBank.print();
+    DataMemory.print();
+
     return 0;
 }

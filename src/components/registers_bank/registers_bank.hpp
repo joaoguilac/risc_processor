@@ -19,6 +19,7 @@ SC_MODULE(registers_bank)
     void ula_load();
     void memory_load();
     void memory_write();
+    void print();
 
     SC_CTOR(registers_bank)
     {
@@ -57,4 +58,15 @@ void registers_bank::memory_load()
 void registers_bank::memory_write()
 {
     DataOut1.write(RegistersBank[LoadAddress1.read()]);
+}
+
+void registers_bank::print()
+{
+    std::cout << "=======Registradores=======" << std::endl;
+    for (size_t i{0}; i < 32; i++)
+    {
+        std::cout << "[" << i << "]"
+                  << "- (" << RegistersBank[i] << ")" << std::endl;
+    }
+    std::cout << std::endl;
 }
