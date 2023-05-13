@@ -59,7 +59,7 @@ void registers_bank::memory_load()
 
 void registers_bank::memory_write()
 {
-    DataOut1.write(RegistersBank[LoadAddress1.read()]);
+    DataOut1.write(RegistersBank[LoadAddress1.read().range(25, 21)]);
 }
 
 void registers_bank::print()

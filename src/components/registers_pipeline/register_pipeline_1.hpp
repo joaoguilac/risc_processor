@@ -20,5 +20,5 @@ SC_MODULE(register_pipeline_1)
 
 void register_pipeline_1::pass_instruction()
 {
-    InstructionOut.write(InstructionIn);
+    InstructionOut.write(InstructionIn.read());
 }

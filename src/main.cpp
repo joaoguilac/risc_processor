@@ -41,6 +41,7 @@ int decode(string instruction)
     while (getline(ss, tmp, ' '))
     {
         words.push_back(tmp);
+        cout << tmp << " ";
     }
 
     if (words.size() == 4) // Ula
@@ -121,7 +122,7 @@ int decode(string instruction)
 
         decodedInstruction |= (stoi(words[1]) << 21);
     }
-
+    cout << decodedInstruction;
     return decodedInstruction;
 }
 

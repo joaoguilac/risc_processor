@@ -22,7 +22,7 @@ SC_MODULE(data_memory)
     SC_CTOR(data_memory)
     {
         SC_METHOD(control);
-        sensitive << AddressLoad << AddressWrite << DataWriteIn << DataLoadOut;
+        sensitive << AddressLoad << AddressWrite << DataWriteIn << DataLoadOut << MemLoad << MemWrite;
     }
 };
 
