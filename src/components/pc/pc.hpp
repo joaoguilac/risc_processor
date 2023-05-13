@@ -25,12 +25,12 @@ void pc::next_instruction()
 {
     if (Jump.read())
     {
-        std::cout << "JumpPosition: " << JumpPosition.read().range(25, 21) << std::endl;
+        // std::cout << "JumpPosition: " << JumpPosition.read().range(25, 21) << std::endl;
         counter = JumpPosition.read().range(25, 21);
     }
     else if ((JumpCmp.read() & JumpResult.read()))
     {
-        std::cout << "JumpPosition: " << JumpPosition.read().range(20, 16) << std::endl;
+        // std::cout << "JumpPosition: " << JumpPosition.read().range(20, 16) << std::endl;
         counter = JumpPosition.read().range(20, 16);
     }
     else

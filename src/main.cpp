@@ -29,7 +29,7 @@ int decode(string instruction)
     // Para instruções de Mémoria, ela deve vir como "Operação" "Registrador Fonte" "Registrador Destino"
     // Para instruções de Jump, deve vir como "Operação" "Posição"
 
-    // cout << "Inst: " << instruction << " ";
+    // std::cout << "Inst: " << instruction << " ";
 
     uint decodedInstruction = 0;
     uint tmpInt;
@@ -41,7 +41,7 @@ int decode(string instruction)
     while (getline(ss, tmp, ' '))
     {
         words.push_back(tmp);
-        cout << tmp << " ";
+        // std::cout << tmp << " ";
     }
 
     if (words.size() == 4) // Ula
@@ -122,7 +122,7 @@ int decode(string instruction)
 
         decodedInstruction |= (stoi(words[1]) << 21);
     }
-    cout << decodedInstruction << " ";
+    // std::cout << decodedInstruction << " ";
     return decodedInstruction;
 }
 
@@ -146,7 +146,7 @@ int sc_main(int argc, char *argv[])
 
     //!=== Signals ===!//
     //* PC
-    sc_clock clock("clock", 30, SC_NS, 0.5);
+    sc_clock clock("clock", 10, SC_NS, 0.5);
     sc_signal<bool> JumpCmpPC;
     sc_signal<sc_uint<5>> InstructionAddressPC;
     sc_signal<sc_uint<5>> JumpPositionPC; // IN
@@ -399,7 +399,7 @@ int sc_main(int argc, char *argv[])
     fileData.open("../data/data_memory.dat");
     if (!fileData)
     {
-        cout << "Erro no carregamento do arquivo de dados";
+        std::cout << "Erro no carregamento do arquivo de dados";
         exit(1);
     }
 
@@ -418,7 +418,7 @@ int sc_main(int argc, char *argv[])
     fileInstruction.open(fileName);
     if (!fileInstruction)
     {
-        cout << "Erro no carregamento do arquivo de instruções";
+        std::cout << "Erro no carregamento do arquivo de instruções";
         exit(1);
     }
     string instStr;
@@ -440,8 +440,6 @@ int sc_main(int argc, char *argv[])
     sc_trace(fp, clock, "clock");
 
     // PC
-    // sc_trace(fp, PC.Reset, "PCReset");
-
     sc_trace(fp, PC.JumpResult, "1PCJumpResult");
     sc_trace(fp, PC.JumpCmp, "1PCJumpCmp");
     sc_trace(fp, PC.Jump, "1PCJump");
@@ -456,67 +454,67 @@ int sc_main(int argc, char *argv[])
     sc_trace(fp, RegPipeline1.InstructionOut, "3Pipe1InstructionOut");
 
     // Register Bank
-    // sc_trace(fp, RegistersBank.LoadAddress1, "5RegBankLoadAddress1");
-    // sc_trace(fp, RegistersBank.LoadAddress2, "5RegBankLoadAddress2");
-    // sc_trace(fp, RegistersBank.WriteAddress, "5RegBankWriteAddress");
-    // sc_trace(fp, RegistersBank.WriteData, "5RegBankWriteData");
-    // sc_trace(fp, RegistersBank.RegWrite, "5RegBankRegWrite");
-    // sc_trace(fp, RegistersBank.MemWrite, "5RegBankMemWrite");
-    // sc_trace(fp, RegistersBank.RegUla, "5RegBankRegUla");
+    sc_trace(fp, RegistersBank.LoadAddress1, "5RegBankLoadAddress1");
+    sc_trace(fp, RegistersBank.LoadAddress2, "5RegBankLoadAddress2");
+    sc_trace(fp, RegistersBank.WriteAddress, "5RegBankWriteAddress");
+    sc_trace(fp, RegistersBank.WriteData, "5RegBankWriteData");
+    sc_trace(fp, RegistersBank.RegWrite, "5RegBankRegWrite");
+    sc_trace(fp, RegistersBank.MemWrite, "5RegBankMemWrite");
+    sc_trace(fp, RegistersBank.RegUla, "5RegBankRegUla");
     sc_trace(fp, RegistersBank.JumpCmp, "5RegBankregisterJumpCmp");
     sc_trace(fp, RegistersBank.DataOut1, "5RegBankregisterDataOut1");
-    // sc_trace(fp, RegistersBank.DataOut2, "5RegBankregisterDataOut2");
+    sc_trace(fp, RegistersBank.DataOut2, "5RegBankregisterDataOut2");
 
     // Control
-    // sc_trace(fp, Control.Operation, "4ControlOperationControl");
-    // sc_trace(fp, Control.Reset, "4ControlReset");
+    sc_trace(fp, Control.Operation, "4ControlOperationControl");
+    sc_trace(fp, Control.Reset, "4ControlReset");
     sc_trace(fp, Control.JumpCmp, "4ControlJumpCmp");
-    // sc_trace(fp, Control.MemLoad, "4ControlMemLoad");
-    // sc_trace(fp, Control.RegWrite, "4ControlRegWrite");
+    sc_trace(fp, Control.MemLoad, "4ControlMemLoad");
+    sc_trace(fp, Control.RegWrite, "4ControlRegWrite");
     sc_trace(fp, Control.Jump, "4ControlJump");
-    // sc_trace(fp, Control.CtrlMemWrite, "4ControlCtrlMemWrite");
-    // sc_trace(fp, Control.UlaOP, "4ControlUlaOP");
-    // sc_trace(fp, Control.RegUla, "4ControlRegUla");
+    sc_trace(fp, Control.CtrlMemWrite, "4ControlCtrlMemWrite");
+    sc_trace(fp, Control.UlaOP, "4ControlUlaOP");
+    sc_trace(fp, Control.RegUla, "4ControlRegUla");
     sc_trace(fp, Control.JumpNeg, "4ControlJumpNeg");
 
     // Pipeline2
     sc_trace(fp, RegPipeline2.InstructionOut, "6Pipe2InstructionOut");
     sc_trace(fp, RegPipeline2.DataOut1, "6Pipe2DataOut1");
-    // sc_trace(fp, RegPipeline2.DataOut2, "6Pipe2DataOut2");
-    // sc_trace(fp, RegPipeline2.AddrMemLoadFonteOut, "6Pipe2AddrMemLoadFonteOut");
-    // sc_trace(fp, RegPipeline2.AddrUlaRegOut, "6Pipe2AddrUlaRegOut");
-    // sc_trace(fp, RegPipeline2.AddrMemLoadRegOut, "6Pipe2AddrMemLoadRegOut");
-    // sc_trace(fp, RegPipeline2.AddrMemWriteOut, "6Pipe2AddrMemWriteOut");
-    // sc_trace(fp, RegPipeline2.UlaOPOut, "6Pipe2UlaOPOut");
-    // sc_trace(fp, RegPipeline2.CtrlMemWriteOut, "6Pipe2CtrlMemWriteOut");
+    sc_trace(fp, RegPipeline2.DataOut2, "6Pipe2DataOut2");
+    sc_trace(fp, RegPipeline2.AddrMemLoadFonteOut, "6Pipe2AddrMemLoadFonteOut");
+    sc_trace(fp, RegPipeline2.AddrUlaRegOut, "6Pipe2AddrUlaRegOut");
+    sc_trace(fp, RegPipeline2.AddrMemLoadRegOut, "6Pipe2AddrMemLoadRegOut");
+    sc_trace(fp, RegPipeline2.AddrMemWriteOut, "6Pipe2AddrMemWriteOut");
+    sc_trace(fp, RegPipeline2.UlaOPOut, "6Pipe2UlaOPOut");
+    sc_trace(fp, RegPipeline2.CtrlMemWriteOut, "6Pipe2CtrlMemWriteOut");
     sc_trace(fp, RegPipeline2.JumpOut, "6Pipe2JumpOut");
-    // sc_trace(fp, RegPipeline2.RegWriteOut, "6Pipe2RegWriteOut");
-    // sc_trace(fp, RegPipeline2.MemLoadOut, "6Pipe2MemLoadOut");
+    sc_trace(fp, RegPipeline2.RegWriteOut, "6Pipe2RegWriteOut");
+    sc_trace(fp, RegPipeline2.MemLoadOut, "6Pipe2MemLoadOut");
     sc_trace(fp, RegPipeline2.JumpCmpOut, "6Pipe2JumpCmpOut");
     sc_trace(fp, RegPipeline2.JumpNegOut, "6Pipe2JumpNegOut");
 
     // Data Memory
-    // sc_trace(fp, DataMemory.DataWriteIn, "DataMemDataWriteIn");
+    sc_trace(fp, DataMemory.DataWriteIn, "DataMemDataWriteIn");
 
     // Ula
     sc_trace(fp, Ula.Op1, "7UlaOp1");
-    // sc_trace(fp, Ula.Op2, "7UlaOp2");
+    sc_trace(fp, Ula.Op2, "7UlaOp2");
     sc_trace(fp, Ula.UlaInst, "7UlaInst");
-    // sc_trace(fp, Ula.DataOut, "7UlaDataOut");
+    sc_trace(fp, Ula.DataOut, "7UlaDataOut");
     sc_trace(fp, Ula.JumpResult, "7UlaJumpResult");
 
     // Pipeline 3
     sc_trace(fp, RegPipeline3.InstructionOut, "8Pipe3InstructionOut");
-    // sc_trace(fp, RegPipeline3.DataMuxOut, "8Pipe3DataMuxOut");
-    // sc_trace(fp, RegPipeline3.RegWriteOut, "8Pipe3RegWriteOut");
+    sc_trace(fp, RegPipeline3.DataMuxOut, "8Pipe3DataMuxOut");
+    sc_trace(fp, RegPipeline3.RegWriteOut, "8Pipe3RegWriteOut");
     sc_trace(fp, RegPipeline3.JumpOut, "8Pipe3JumpOut");
     sc_trace(fp, RegPipeline3.JumpResultOut, "8Pipe3JumpResultOut");
     sc_trace(fp, RegPipeline3.JumpCmpOut, "8Pipe3JumpCmpOut");
 
     // Pipeline 4
-    // sc_trace(fp, RegPipeline4.DataUlaOut, "9Pipe4DataUlaOut");
-    // sc_trace(fp, RegPipeline4.AddrMuxRegOut, "9Pipe4AddrMuxRegOut");
-    // sc_trace(fp, RegPipeline4.RegWriteOut, "9Pipe4RegWriteOut");
+    sc_trace(fp, RegPipeline4.DataUlaOut, "9Pipe4DataUlaOut");
+    sc_trace(fp, RegPipeline4.AddrMuxRegOut, "9Pipe4AddrMuxRegOut");
+    sc_trace(fp, RegPipeline4.RegWriteOut, "9Pipe4RegWriteOut");
 
     sc_start();
 
