@@ -6,7 +6,7 @@ SC_MODULE(testbench)
 
     void test()
     {
-        for (size_t i{0}; i < 10; i++)
+        for (size_t i{0}; i < 20; i++)
         {
             wait();
         }

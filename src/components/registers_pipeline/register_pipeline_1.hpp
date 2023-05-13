@@ -20,5 +20,6 @@ SC_MODULE(register_pipeline_1)
 
 void register_pipeline_1::pass_instruction()
 {
+    // std::cout << "Pipe 1 Inst: " << InstructionIn.read() << " ";
     InstructionOut.write(InstructionIn.read());
 }

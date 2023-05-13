@@ -26,6 +26,8 @@ SC_MODULE(register_pipeline_3)
 
 void register_pipeline_3::pass_instruction()
 {
+    // std::cout << "Pipe 3 Inst: " << InstructionIn.read() << " ";
+
     InstructionOut.write(InstructionIn.read());
     DataMuxOut.write(DataMuxIn.read());
     AddrMemLoadFonteOut.write(AddrMemLoadFonteIn.read());
@@ -37,4 +39,5 @@ void register_pipeline_3::pass_instruction()
     RegWriteOut.write(RegWriteIn.read());
     MemLoadOut.write(MemLoadIn.read());
     JumpCmpOut.write(JumpCmpIn.read());
+    JumpResultOut.write(JumpResultIn.read());
 }

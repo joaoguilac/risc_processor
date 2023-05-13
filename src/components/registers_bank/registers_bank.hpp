@@ -8,7 +8,7 @@ SC_MODULE(registers_bank)
     sc_in<sc_uint<32>> LoadAddress1, LoadAddress2;
     sc_in<sc_uint<5>> WriteAddress;
     sc_in<sc_uint<32>> WriteData;
-    sc_in<bool> RegWrite, MemWrite, RegUla;
+    sc_in<bool> RegWrite, MemWrite, RegUla, JumpCmp;
 
     sc_out<sc_uint<32>> DataOut1, DataOut2;
 
@@ -21,6 +21,7 @@ SC_MODULE(registers_bank)
     void ula_load();
     void memory_load();
     void memory_write();
+    void jump_cmp();
     void print();
 
     SC_CTOR(registers_bank)
@@ -44,6 +45,10 @@ void registers_bank::control()
     {
         memory_write();
     }
+    if (JumpCmp.read())
+    {
+        jump_cmp();
+    }
 }
 
 void registers_bank::ula_load()
@@ -58,6 +63,11 @@ void registers_bank::memory_load()
 }
 
 void registers_bank::memory_write()
+{
+    DataOut1.write(RegistersBank[LoadAddress1.read().range(25, 21)]);
+}
+
+void registers_bank::jump_cmp()
 {
     DataOut1.write(RegistersBank[LoadAddress1.read().range(25, 21)]);
 }

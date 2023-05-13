@@ -42,7 +42,7 @@ void ula::execute()
         if (JumpCmp.read())
             if (JumpNeg.read())
             {
-                if (Op1.read() < 0)
+                if (Op1.read().to_int() < 0)
                     JumpResult.write(1);
                 else
                     JumpResult.write(0);

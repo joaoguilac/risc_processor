@@ -24,6 +24,8 @@ SC_MODULE(register_pipeline_2)
 
 void register_pipeline_2::pass_instruction()
 {
+    // std::cout << "Pipe 2 Inst: " << InstructionIn.read() << " ";
+
     InstructionOut.write(InstructionIn.read());
     DataOut1.write(DataOut1In.read());
     DataOut2.write(DataOut2In.read());
