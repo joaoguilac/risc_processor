@@ -4,13 +4,13 @@
 
 SC_MODULE(data_memory)
 {
-    sc_in<sc_int<5>> AddressLoad, AddressWrite;
-    sc_in<sc_int<32>> DataWriteIn;
+    sc_in<sc_uint<5>> AddressLoad, AddressWrite;
+    sc_in<sc_uint<32>> DataWriteIn;
     sc_in<bool> MemLoad, MemWrite;
 
-    sc_out<sc_int<32>> DataLoadOut;
+    sc_out<sc_uint<32>> DataLoadOut;
 
-    sc_int<32> MemoryBank[32];
+    sc_uint<32> MemoryBank[32];
 
     // methods
     void control();

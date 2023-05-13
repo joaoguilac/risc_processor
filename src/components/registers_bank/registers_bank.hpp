@@ -5,14 +5,14 @@
 
 SC_MODULE(registers_bank)
 {
-    sc_in<sc_int<32>> LoadAddress1, LoadAddress2;
-    sc_in<sc_int<5>> WriteAddress;
-    sc_in<sc_int<32>> WriteData;
+    sc_in<sc_uint<32>> LoadAddress1, LoadAddress2;
+    sc_in<sc_uint<5>> WriteAddress;
+    sc_in<sc_uint<32>> WriteData;
     sc_in<bool> RegWrite, MemWrite, RegUla;
 
-    sc_out<sc_int<32>> DataOut1, DataOut2;
+    sc_out<sc_uint<32>> DataOut1, DataOut2;
 
-    sc_int<32> RegistersBank[32];
+    sc_uint<32> RegistersBank[32];
 
     // methods
     void control();

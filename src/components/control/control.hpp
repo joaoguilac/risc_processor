@@ -3,7 +3,7 @@
 
 SC_MODULE(control)
 {
-    sc_in<sc_int<32>> Operation;
+    sc_in<sc_uint<32>> Operation;
     sc_in_clk clock;
 
     sc_out<bool> Reset, JumpCmp, MemLoad, RegWrite, Jump, CtrlMemWrite, UlaOP, RegUla, JumpNeg;

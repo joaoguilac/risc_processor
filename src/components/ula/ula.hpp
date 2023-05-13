@@ -2,12 +2,12 @@
 
 SC_MODULE(ula)
 {
-    sc_in<sc_int<32>> Op1, Op2;
-    sc_in<sc_int<32>> UlaInst;
+    sc_in<sc_uint<32>> Op1, Op2;
+    sc_in<sc_uint<32>> UlaInst;
     sc_in<bool> UlaOP, JumpCmp, JumpNeg;
 
     sc_out<bool> JumpResult;
-    sc_out<sc_int<32>> DataOut;
+    sc_out<sc_uint<32>> DataOut;
 
     // methods
     void execute();

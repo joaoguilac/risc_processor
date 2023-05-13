@@ -2,8 +2,8 @@
 
 SC_MODULE(testbench)
 {
-    sc_out<sc_int<32>> A, B;
-    sc_out<sc_int<3>> Op;
+    sc_out<sc_uint<32>> A, B;
+    sc_out<sc_uint<3>> Op;
     sc_in<bool> Clk;
 
     void TbGen()

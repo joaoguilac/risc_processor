@@ -45,7 +45,11 @@ int decode(string instruction)
 
     if (words.size() == 4) // Ula
     {
-        if (words[0] == "AND")
+        if (words[0] == "BUB")
+        {
+            tmpInt = 56;
+        }
+        else if (words[0] == "AND")
         {
             tmpInt = 1;
         }
@@ -146,66 +150,66 @@ int sc_main(int argc, char *argv[])
     //* PC
     sc_clock clock("clock", 10, SC_NS, 0.5);
     sc_signal<bool> JumpCmpPC;
-    sc_signal<sc_int<5>> InstructionAddressPC;
-    sc_signal<sc_int<5>> JumpPositionPC; // IN
+    sc_signal<sc_uint<5>> InstructionAddressPC;
+    sc_signal<sc_uint<5>> JumpPositionPC; // IN
 
     //* Instruction Memory
-    sc_signal<sc_int<32>> InstructionOutInstMemory;
+    sc_signal<sc_uint<32>> InstructionOutInstMemory;
 
     //* Register Pipeline 1
-    sc_signal<sc_int<32>> InstructionOutPipe1;
+    sc_signal<sc_uint<32>> InstructionOutPipe1;
 
     //* Control
     sc_signal<bool> ResetControl, JumpCmpControl, MemLoadControl, RegWriteControl, JumpControl, CtrlMemWriteControl, UlaOPControl, RegUlaControl, JumpNegControl;
-    sc_signal<sc_int<3>> OperationControl; // IN
+    sc_signal<sc_uint<3>> OperationControl; // IN
 
     //* Registers Bank
-    sc_signal<sc_int<32>> DataOut1RegisterBank, DataOut2RegisterBank;
-    sc_signal<sc_int<5>> LoadAddress1RegisterBank, LoadAddress2RegisterBank, WriteAddressRegisterBank; // IN
+    sc_signal<sc_uint<32>> DataOut1RegisterBank, DataOut2RegisterBank;
+    sc_signal<sc_uint<5>> LoadAddress1RegisterBank, LoadAddress2RegisterBank, WriteAddressRegisterBank; // IN
 
     //* Register Pipeline 2
-    sc_signal<sc_int<32>> InstructionOutPipe2, DataOut1Pipe2, DataOut2Pipe2;
-    sc_signal<sc_int<5>> AddrMemLoadFonteOutPipe2, AddrUlaRegOutPipe2, AddrMemLoadRegOutPipe2, AddrMemWriteOutPipe2;
+    sc_signal<sc_uint<32>> InstructionOutPipe2, DataOut1Pipe2, DataOut2Pipe2;
+    sc_signal<sc_uint<5>> AddrMemLoadFonteOutPipe2, AddrUlaRegOutPipe2, AddrMemLoadRegOutPipe2, AddrMemWriteOutPipe2;
     sc_signal<bool> UlaOPOutPipe2, CtrlMemWriteOutPipe2, JumpOutPipe2, RegWriteOutPipe2, MemLoadOutPipe2, JumpCmpOutPipe2, JumpNegOutPipe2;
-    sc_signal<sc_int<5>> AddrMemLoadFonteInPipe2, AddrUlaRegInPipe2, AddrMemLoadRegInPipe2, AddrMemWriteInPipe2; // IN
+    sc_signal<sc_uint<5>> AddrMemLoadFonteInPipe2, AddrUlaRegInPipe2, AddrMemLoadRegInPipe2, AddrMemWriteInPipe2; // IN
 
     //* Ula
     sc_signal<bool> JumpResultUla;
-    sc_signal<sc_int<32>> DataOutUla;
-    sc_signal<sc_int<3>> UlaInstUla; // IN
+    sc_signal<sc_uint<32>> DataOutUla;
+    sc_signal<sc_uint<3>> UlaInstUla; // IN
 
     //* Mux 5 Ula
-    sc_signal<sc_int<5>> OutMux5;
+    sc_signal<sc_uint<5>> OutMux5;
 
     //* Mux 32 Ula
-    sc_signal<sc_int<32>> Out1Mux32;
+    sc_signal<sc_uint<32>> Out1Mux32;
 
     //* Register Pipeline 3
-    sc_signal<sc_int<32>> InstructionOutPipe3, DataMuxOutPipe3;
-    sc_signal<sc_int<5>> AddrMemLoadFonteOutPipe3, AddrMuxRegOutPipe3, AddrMemWriteOutPipe3;
+    sc_signal<sc_uint<32>> InstructionOutPipe3, DataMuxOutPipe3;
+    sc_signal<sc_uint<5>> AddrMemLoadFonteOutPipe3, AddrMuxRegOutPipe3, AddrMemWriteOutPipe3;
     sc_signal<bool> JumpResultOutPipe3;
     sc_signal<bool> CtrlMemWriteOutPipe3, JumpOutPipe3, RegWriteOutPipe3, MemLoadOutPipe3, JumpCmpOutPipe3;
 
     //* Data Memory
-    sc_signal<sc_int<32>> DataLoadOutDataMemory;
+    sc_signal<sc_uint<32>> DataLoadOutDataMemory;
 
     //* Register Pipeline 4
-    sc_signal<sc_int<32>> DataUlaOutPipe4, DataMemOutPipe4;
-    sc_signal<sc_int<5>> AddrMuxRegOutPipe4;
+    sc_signal<sc_uint<32>> DataUlaOutPipe4, DataMemOutPipe4;
+    sc_signal<sc_uint<5>> AddrMuxRegOutPipe4;
     sc_signal<bool> RegWriteOutPipe4, MemLoadOutPipe4;
 
     //* Mux 32 Reg
-    sc_signal<sc_int<32>> Out2Mux32;
+    sc_signal<sc_uint<32>> Out2Mux32;
 
     //!=== Dedicated Channels ===!//
     sc_bv<32> Aux32BitVector;
     sc_bv<5> Aux5BitVector;
     sc_bv<3> Aux3BitVector;
-    sc_int<32> Aux32Int;
-    sc_int<5> Aux5Int;
-    sc_int<3> Aux3Int;
-    sc_int<5> Aux5Uint;
-    sc_int<3> Aux3Uint;
+    sc_uint<32> Aux32Int;
+    sc_uint<5> Aux5Int;
+    sc_uint<3> Aux3Int;
+    sc_uint<5> Aux5Uint;
+    sc_uint<3> Aux3Uint;
 
     //* PC
     //== In
@@ -390,7 +394,7 @@ int sc_main(int argc, char *argv[])
 
     //!=== Read file ===!//
     fstream fileData;
-    sc_int<32> dataMem[32]; // Vetor com dados para entrarem na memória de dados
+    sc_uint<32> dataMem[32]; // Vetor com dados para entrarem na memória de dados
     fileData.open("../data/data_memory.dat");
     if (!fileData)
     {
@@ -407,7 +411,7 @@ int sc_main(int argc, char *argv[])
     }
 
     fstream fileInstruction;
-    sc_int<32> instructionMem[32]; // Vetor com dados para entrarem na memória de instruções
+    sc_uint<32> instructionMem[32]; // Vetor com dados para entrarem na memória de instruções
     string fileName = argv[1];
     fileInstruction.open(fileName);
     if (!fileInstruction)
@@ -495,7 +499,7 @@ int sc_main(int argc, char *argv[])
 
     std::cout << std::endl;
     RegistersBank.print();
-    DataMemory.print();
+    // DataMemory.print();
 
     return 0;
 }

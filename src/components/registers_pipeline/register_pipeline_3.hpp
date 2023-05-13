@@ -3,14 +3,14 @@
 
 SC_MODULE(register_pipeline_3)
 {
-    sc_in<sc_int<32>> InstructionIn, DataMuxIn;
-    sc_in<sc_int<5>> AddrMemLoadFonteIn, AddrMuxRegIn, AddrMemWriteIn;
+    sc_in<sc_uint<32>> InstructionIn, DataMuxIn;
+    sc_in<sc_uint<5>> AddrMemLoadFonteIn, AddrMuxRegIn, AddrMemWriteIn;
     sc_in<bool> JumpResultIn;
     sc_in<bool> CtrlMemWriteIn, JumpIn, RegWriteIn, MemLoadIn, JumpCmpIn;
     sc_in_clk clock;
 
-    sc_out<sc_int<32>> InstructionOut, DataMuxOut;
-    sc_out<sc_int<5>> AddrMemLoadFonteOut, AddrMuxRegOut, AddrMemWriteOut;
+    sc_out<sc_uint<32>> InstructionOut, DataMuxOut;
+    sc_out<sc_uint<5>> AddrMemLoadFonteOut, AddrMuxRegOut, AddrMemWriteOut;
     sc_out<bool> JumpResultOut;
     sc_out<bool> CtrlMemWriteOut, JumpOut, RegWriteOut, MemLoadOut, JumpCmpOut;
 

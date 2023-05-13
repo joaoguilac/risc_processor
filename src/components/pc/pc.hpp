@@ -2,13 +2,13 @@
 
 SC_MODULE(pc)
 {
-    sc_in<sc_int<32>> JumpPosition;
+    sc_in<sc_uint<32>> JumpPosition;
     sc_in<bool> Jump, JumpCmp, Reset;
     sc_in_clk clock;
 
-    sc_out<sc_int<5>> InstructionAddress;
+    sc_out<sc_uint<5>> InstructionAddress;
 
-    sc_int<5> counter = -1;
+    sc_uint<5> counter = -1;
 
     // methods
     void next_instruction();

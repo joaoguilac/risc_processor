@@ -2,10 +2,10 @@
 
 SC_MODULE(mux32)
 {
-    sc_in<sc_int<32>> Entry1, Entry2;
+    sc_in<sc_uint<32>> Entry1, Entry2;
     sc_in<bool> Control;
 
-    sc_out<sc_int<32>> Out;
+    sc_out<sc_uint<32>> Out;
 
     // methods
     void select();

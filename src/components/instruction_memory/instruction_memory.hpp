@@ -5,11 +5,11 @@
 
 SC_MODULE(instruction_memory)
 {
-    sc_in<sc_int<5>> Address;
+    sc_in<sc_uint<5>> Address;
 
-    sc_out<sc_int<32>> InstructionOut;
+    sc_out<sc_uint<32>> InstructionOut;
 
-    sc_int<32> InstructionBank[32];
+    sc_uint<32> InstructionBank[32];
 
     // methods
     void next_instruction();
