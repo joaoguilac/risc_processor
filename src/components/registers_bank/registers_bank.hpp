@@ -14,6 +14,8 @@ SC_MODULE(registers_bank)
 
     sc_uint<32> RegistersBank[32];
 
+    sc_in_clk clock;
+
     // methods
     void control();
     void ula_load();

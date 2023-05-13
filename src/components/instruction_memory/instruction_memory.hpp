@@ -11,6 +11,8 @@ SC_MODULE(instruction_memory)
 
     sc_uint<32> InstructionBank[32];
 
+    sc_in_clk clock;
+
     // methods
     void next_instruction();
 

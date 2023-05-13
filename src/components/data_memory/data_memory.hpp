@@ -7,6 +7,7 @@ SC_MODULE(data_memory)
     sc_in<sc_uint<5>> AddressLoad, AddressWrite;
     sc_in<sc_uint<32>> DataWriteIn;
     sc_in<bool> MemLoad, MemWrite;
+    sc_in_clk clock;
 
     sc_out<sc_uint<32>> DataLoadOut;
 

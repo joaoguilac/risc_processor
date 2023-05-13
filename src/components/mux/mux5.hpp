@@ -4,6 +4,7 @@ SC_MODULE(mux5)
 {
     sc_in<sc_uint<5>> Entry1, Entry2;
     sc_in<bool> Control;
+    sc_in_clk clock;
 
     sc_out<sc_uint<5>> Out;
 

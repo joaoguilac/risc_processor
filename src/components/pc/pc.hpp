@@ -8,7 +8,8 @@ SC_MODULE(pc)
 
     sc_out<sc_uint<5>> InstructionAddress;
 
-    sc_uint<5> counter = -1;
+    sc_uint<5> counter = 0;
+    int first = 0;
 
     // methods
     void next_instruction();
@@ -16,21 +17,21 @@ SC_MODULE(pc)
     SC_CTOR(pc)
     {
         SC_METHOD(next_instruction);
-        sensitive << Reset << clock.pos();
+        sensitive << clock.pos();
     }
 };
 
 void pc::next_instruction()
 {
-    if (Reset.read())
+    if (Jump.read() || JumpCmp.read())
     {
-        counter = -1;
+        counter = JumpPosition.read().range(25, 21);
     }
     else
     {
-        if (Jump.read() || JumpCmp.read())
+        if (first == 0)
         {
-            counter = JumpPosition.read().range(25, 21);
+            first = 1;
         }
         else
         {

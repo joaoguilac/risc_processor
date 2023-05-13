@@ -51,31 +51,31 @@ int decode(string instruction)
         }
         else if (words[0] == "AND")
         {
-            tmpInt = 1;
+            tmpInt = 9; // 001001
         }
         else if (words[0] == "OR")
         {
-            tmpInt = 2;
+            tmpInt = 10; // 001010
         }
         else if (words[0] == "XOR")
         {
-            tmpInt = 3;
+            tmpInt = 11; // 001011
         }
         else if (words[0] == "NOT")
         {
-            tmpInt = 4;
+            tmpInt = 12; // 001100
         }
         else if (words[0] == "CMP")
         {
-            tmpInt = 5;
+            tmpInt = 13; // 001101
         }
         else if (words[0] == "ADD")
         {
-            tmpInt = 6;
+            tmpInt = 14; // 001110
         }
         else if (words[0] == "SUB")
         {
-            tmpInt = 7;
+            tmpInt = 15; // 001111
         }
         decodedInstruction |= (tmpInt << 26);
 
@@ -89,14 +89,14 @@ int decode(string instruction)
     {
         if (words[0] == "LD")
         {
-            tmpInt = 1;
+            tmpInt = 16; // 010000
         }
         else if (words[0] == "ST")
         {
-            tmpInt = 2;
+            tmpInt = 24; // 011000
         }
 
-        decodedInstruction |= (tmpInt << 29);
+        decodedInstruction |= (tmpInt << 26);
 
         decodedInstruction |= (stoi(words[1]) << 21);
 
@@ -106,21 +106,18 @@ int decode(string instruction)
     {
         if (words[0] == "J")
         {
-            tmpInt = 3;
-
-            decodedInstruction |= (tmpInt << 29);
+            tmpInt = 32; // 100000
         }
         else if (words[0] == "JN")
         {
-            tmpInt = 37;
-
-            decodedInstruction |= (tmpInt << 26);
+            tmpInt = 45; // 101101
         }
         else if (words[0] == "JZ")
         {
-            tmpInt = 45;
-            decodedInstruction |= (tmpInt << 26);
+            tmpInt = 53; // 110101
         }
+
+        decodedInstruction |= (tmpInt << 26);
 
         decodedInstruction |= (stoi(words[1]) << 21);
     }
@@ -226,6 +223,7 @@ int sc_main(int argc, char *argv[])
     //* Instruction Memory
     //== In
     InstMemory.Address(InstructionAddressPC);
+    InstMemory.clock(clock);
     //== Out
     InstMemory.InstructionOut(InstructionOutInstMemory);
 
@@ -253,23 +251,20 @@ int sc_main(int argc, char *argv[])
 
     //* Registers Bank
     //== In
-    Aux32Int = InstructionOutPipe1;
-    Aux32BitVector = Aux32Int;
     RegistersBank.LoadAddress1(InstructionOutPipe1);
     RegistersBank.LoadAddress2(InstructionOutPipe1);
     RegistersBank.WriteAddress(AddrMuxRegOutPipe4);
     RegistersBank.WriteData(Out2Mux32);
-    RegistersBank.RegWrite(RegWriteOutPipe3);
+    RegistersBank.RegWrite(RegWriteOutPipe4);
     RegistersBank.MemWrite(CtrlMemWriteControl);
     RegistersBank.RegUla(RegUlaControl);
+    RegistersBank.clock(clock);
     //== Out
     RegistersBank.DataOut1(DataOut1RegisterBank);
     RegistersBank.DataOut2(DataOut2RegisterBank);
 
     //* Register Pipeline 2
     //== In
-    Aux32Int = InstructionOutPipe1;
-    Aux32BitVector = Aux32Int;
     RegPipeline2.InstructionIn(InstructionOutPipe1);
     RegPipeline2.DataOut1In(DataOut1RegisterBank);
     RegPipeline2.DataOut2In(DataOut2RegisterBank);
@@ -309,6 +304,7 @@ int sc_main(int argc, char *argv[])
     Ula.UlaOP(UlaOPOutPipe2);
     Ula.JumpCmp(JumpCmpOutPipe2);
     Ula.JumpNeg(JumpNegOutPipe2);
+    Ula.clock(clock);
     //== Out
     Ula.JumpResult(JumpResultUla);
     Ula.DataOut(DataOutUla);
@@ -317,7 +313,8 @@ int sc_main(int argc, char *argv[])
     //== In
     MuxUla1.Entry1(AddrUlaRegOutPipe2);
     MuxUla1.Entry2(AddrMemLoadRegOutPipe2);
-    MuxUla1.Control(UlaOPControl);
+    MuxUla1.Control(UlaOPOutPipe2);
+    MuxUla1.clock(clock);
     //== Out
     MuxUla1.Out(OutMux5);
 
@@ -325,7 +322,8 @@ int sc_main(int argc, char *argv[])
     //== In
     MuxUla2.Entry1(DataOutUla);
     MuxUla2.Entry2(DataOut1Pipe2);
-    MuxUla2.Control(UlaOPControl);
+    MuxUla2.Control(UlaOPOutPipe2);
+    MuxUla2.clock(clock);
     //== Out
     MuxUla2.Out(Out1Mux32);
 
@@ -363,6 +361,7 @@ int sc_main(int argc, char *argv[])
     DataMemory.DataWriteIn(DataMuxOutPipe3);
     DataMemory.MemWrite(CtrlMemWriteOutPipe3);
     DataMemory.MemLoad(MemLoadOutPipe3);
+    DataMemory.clock(clock);
     //== Out
     DataMemory.DataLoadOut(DataLoadOutDataMemory);
 
@@ -385,7 +384,8 @@ int sc_main(int argc, char *argv[])
     //== In
     MuxData.Entry1(DataMemOutPipe4);
     MuxData.Entry2(DataUlaOutPipe4);
-    MuxData.Control(MemLoadOutPipe3);
+    MuxData.Control(MemLoadOutPipe4);
+    MuxData.clock(clock);
     //== Out
     MuxData.Out(Out2Mux32);
 
@@ -437,61 +437,75 @@ int sc_main(int argc, char *argv[])
     sc_trace(fp, clock, "clock");
 
     // PC
-    sc_trace(fp, PC.Reset, "PCReset");
-    sc_trace(fp, PC.JumpCmp, "PCJumpCmp");
-    sc_trace(fp, PC.Jump, "PCJump");
-    sc_trace(fp, PC.counter, "PCcounter");
-    sc_trace(fp, PC.InstructionAddress, "PCInstruction");
-    // Instruction emory
-    sc_trace(fp, InstMemory.Address, "InstMemAddress");
-    sc_trace(fp, InstMemory.InstructionOut, "InstMemInstOut");
+    // sc_trace(fp, PC.Reset, "PCReset");
+    // sc_trace(fp, PC.JumpCmp, "PCJumpCmp");
+    // sc_trace(fp, PC.Jump, "PCJump");
+    sc_trace(fp, PC.counter, "1PCcounter");
+    sc_trace(fp, PC.InstructionAddress, "1PCInstruction");
+
+    // Instruction memory
+    sc_trace(fp, InstMemory.Address, "2InstMemAddress");
+    sc_trace(fp, InstMemory.InstructionOut, "2InstMemInstOut");
+
     // Pipeline 1
-    sc_trace(fp, RegPipeline1.InstructionOut, "Pipe1InstructionOut");
+    sc_trace(fp, RegPipeline1.InstructionOut, "3Pipe1InstructionOut");
+
     // Register Bank
-    sc_trace(fp, RegistersBank.LoadAddress1, "RegBankLoadAddress1");
-    sc_trace(fp, RegistersBank.LoadAddress2, "RegBankLoadAddress2");
-    sc_trace(fp, RegistersBank.WriteAddress, "RegBankWriteAddress");
-    sc_trace(fp, RegistersBank.WriteData, "RegBankWriteData");
-    sc_trace(fp, RegistersBank.RegWrite, "RegBankRegWrite");
-    sc_trace(fp, RegistersBank.MemWrite, "RegBankMemWrite");
-    sc_trace(fp, RegistersBank.RegUla, "RegBankRegUla");
-    sc_trace(fp, RegistersBank.DataOut1, "RegBankregisterDataOut1");
-    sc_trace(fp, RegistersBank.DataOut2, "RegBankregisterDataOut2");
+    // sc_trace(fp, RegistersBank.LoadAddress1, "5RegBankLoadAddress1");
+    // sc_trace(fp, RegistersBank.LoadAddress2, "5RegBankLoadAddress2");
+    sc_trace(fp, RegistersBank.WriteAddress, "5RegBankWriteAddress");
+    sc_trace(fp, RegistersBank.WriteData, "5RegBankWriteData");
+    sc_trace(fp, RegistersBank.RegWrite, "5RegBankRegWrite");
+    // sc_trace(fp, RegistersBank.MemWrite, "5RegBankMemWrite");
+    sc_trace(fp, RegistersBank.RegUla, "5RegBankRegUla");
+    sc_trace(fp, RegistersBank.DataOut1, "5RegBankregisterDataOut1");
+    sc_trace(fp, RegistersBank.DataOut2, "5RegBankregisterDataOut2");
     // Control
-    sc_trace(fp, Control.Operation, "ControlOperationControl");
-    sc_trace(fp, Control.Reset, "ControlReset");
-    sc_trace(fp, Control.JumpCmp, "ControlJumpCmp");
-    sc_trace(fp, Control.MemLoad, "ControlMemLoad");
-    sc_trace(fp, Control.RegWrite, "ControlRegWrite");
-    sc_trace(fp, Control.Jump, "ControlJump");
-    sc_trace(fp, Control.CtrlMemWrite, "ControlCtrlMemWrite");
-    sc_trace(fp, Control.UlaOP, "ControlUlaOP");
-    sc_trace(fp, Control.RegUla, "ControlRegUla");
-    sc_trace(fp, Control.JumpNeg, "ControlJumpNeg");
+    sc_trace(fp, Control.Operation, "4ControlOperationControl");
+    // sc_trace(fp, Control.Reset, "4ControlReset");
+    // sc_trace(fp, Control.JumpCmp, "4ControlJumpCmp");
+    // sc_trace(fp, Control.MemLoad, "4ControlMemLoad");
+    sc_trace(fp, Control.RegWrite, "4ControlRegWrite");
+    // sc_trace(fp, Control.Jump, "4ControlJump");
+    // sc_trace(fp, Control.CtrlMemWrite, "4ControlCtrlMemWrite");
+    sc_trace(fp, Control.UlaOP, "4ControlUlaOP");
+    sc_trace(fp, Control.RegUla, "4ControlRegUla");
+    // sc_trace(fp, Control.JumpNeg, "4ControlJumpNeg");
 
     // Pipeline2
-    sc_trace(fp, RegPipeline2.InstructionOut, "Pipe2InstructionOut");
-    sc_trace(fp, RegPipeline2.DataOut1, "Pipe2DataOut1");
-    sc_trace(fp, RegPipeline2.DataOut2, "Pipe2DataOut2");
-    sc_trace(fp, RegPipeline2.AddrMemLoadFonteOut, "Pipe2AddrMemLoadFonteOut");
-    sc_trace(fp, RegPipeline2.AddrUlaRegOut, "Pipe2AddrUlaRegOut");
-    sc_trace(fp, RegPipeline2.AddrMemLoadRegOut, "Pipe2AddrMemLoadRegOut");
-    sc_trace(fp, RegPipeline2.AddrMemWriteOut, "Pipe2AddrMemWriteOut");
-    sc_trace(fp, RegPipeline2.UlaOPOut, "Pipe2UlaOPOut");
-    sc_trace(fp, RegPipeline2.CtrlMemWriteOut, "Pipe2CtrlMemWriteOut");
-    sc_trace(fp, RegPipeline2.JumpOut, "Pipe2JumpOut");
-    sc_trace(fp, RegPipeline2.RegWriteOut, "Pipe2RegWriteOut");
-    sc_trace(fp, RegPipeline2.MemLoadOut, "Pipe2MemLoadOut");
-    sc_trace(fp, RegPipeline2.JumpCmpOut, "Pipe2JumpCmpOut");
-    sc_trace(fp, RegPipeline2.JumpNegOut, "Pipe2JumpNegOut");
+    sc_trace(fp, RegPipeline2.InstructionOut, "6Pipe2InstructionOut");
+    sc_trace(fp, RegPipeline2.DataOut1, "6Pipe2DataOut1");
+    sc_trace(fp, RegPipeline2.DataOut2, "6Pipe2DataOut2");
+    // sc_trace(fp, RegPipeline2.AddrMemLoadFonteOut, "6Pipe2AddrMemLoadFonteOut");
+    sc_trace(fp, RegPipeline2.AddrUlaRegOut, "6Pipe2AddrUlaRegOut");
+    // sc_trace(fp, RegPipeline2.AddrMemLoadRegOut, "6Pipe2AddrMemLoadRegOut");
+    // sc_trace(fp, RegPipeline2.AddrMemWriteOut, "6Pipe2AddrMemWriteOut");
+    sc_trace(fp, RegPipeline2.UlaOPOut, "6Pipe2UlaOPOut");
+    // sc_trace(fp, RegPipeline2.CtrlMemWriteOut, "6Pipe2CtrlMemWriteOut");
+    // sc_trace(fp, RegPipeline2.JumpOut, "6Pipe2JumpOut");
+    sc_trace(fp, RegPipeline2.RegWriteOut, "6Pipe2RegWriteOut");
+    // sc_trace(fp, RegPipeline2.MemLoadOut, "6Pipe2MemLoadOut");
+    // sc_trace(fp, RegPipeline2.JumpCmpOut, "6Pipe2JumpCmpOut");
+    // sc_trace(fp, RegPipeline2.JumpNegOut, "6Pipe2JumpNegOut");
 
     // Data Memory
-    sc_trace(fp, DataMemory.DataWriteIn, "DataMemDataWriteIn");
+    // sc_trace(fp, DataMemory.DataWriteIn, "DataMemDataWriteIn");
+
     // Ula
-    sc_trace(fp, Ula.Op1, "UlaOp1");
-    sc_trace(fp, Ula.Op2, "UlaOp2");
-    sc_trace(fp, Ula.UlaInst, "UlaInst");
-    sc_trace(fp, Ula.DataOut, "UlaDataOut");
+    sc_trace(fp, Ula.Op1, "7UlaOp1");
+    sc_trace(fp, Ula.Op2, "7UlaOp2");
+    sc_trace(fp, Ula.UlaInst, "7UlaInst");
+    sc_trace(fp, Ula.DataOut, "7UlaDataOut");
+
+    // Pipeline 3
+    sc_trace(fp, RegPipeline3.InstructionOut, "8Pipe3InstructionOut");
+    sc_trace(fp, RegPipeline3.DataMuxOut, "8Pipe3DataMuxOut");
+    sc_trace(fp, RegPipeline3.RegWriteOut, "8Pipe3RegWriteOut");
+
+    // Pipeline 4
+    sc_trace(fp, RegPipeline4.DataUlaOut, "9Pipe4DataUlaOut");
+    sc_trace(fp, RegPipeline4.AddrMuxRegOut, "9Pipe4AddrMuxRegOut");
+    sc_trace(fp, RegPipeline4.RegWriteOut, "9Pipe4RegWriteOut");
 
     sc_start();
 
@@ -499,7 +513,7 @@ int sc_main(int argc, char *argv[])
 
     std::cout << std::endl;
     RegistersBank.print();
-    // DataMemory.print();
+    DataMemory.print();
 
     return 0;
 }

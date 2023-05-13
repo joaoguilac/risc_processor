@@ -14,7 +14,7 @@ SC_MODULE(control)
     SC_CTOR(control)
     {
         SC_METHOD(decode);
-        sensitive << clock.pos() << Operation;
+        sensitive << Operation;
     }
 };
 
@@ -22,7 +22,7 @@ void control::decode()
 {
     switch (Operation.read().range(31, 29))
     {
-    case 0: // ULA
+    case 1: // ULA
         Jump.write(0);
         Reset.write(0);
         RegUla.write(1);
@@ -33,7 +33,7 @@ void control::decode()
         JumpCmp.write(0);
         JumpNeg.write(0);
         break;
-    case 1: // Load
+    case 2: // Load
         Jump.write(0);
         Reset.write(0);
         RegUla.write(0);
@@ -44,7 +44,7 @@ void control::decode()
         JumpCmp.write(0);
         JumpNeg.write(0);
         break;
-    case 2: // Store
+    case 3: // Store
         Jump.write(0);
         Reset.write(0);
         RegUla.write(0);
@@ -55,7 +55,7 @@ void control::decode()
         JumpCmp.write(0);
         JumpNeg.write(0);
         break;
-    case 3: // Jump Absoluto
+    case 4: // Jump Absoluto
         Jump.write(1);
         Reset.write(0);
         RegUla.write(0);
@@ -66,7 +66,7 @@ void control::decode()
         JumpCmp.write(0);
         JumpNeg.write(0);
         break;
-    case 4: // Jump se Negativo
+    case 5: // Jump se Negativo
         Jump.write(0);
         Reset.write(0);
         RegUla.write(0);
@@ -77,7 +77,7 @@ void control::decode()
         JumpCmp.write(1);
         JumpNeg.write(1);
         break;
-    case 5: // Jump se zero
+    case 6: // Jump se zero
         Jump.write(0);
         Reset.write(0);
         RegUla.write(0);
