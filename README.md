@@ -1,4 +1,4 @@
-# Organização de Computadores
+# Processador RISC
 
 Implementação de um processador RISC com pipeline para a disciplina de Organização de Computadores DIM0129 do curso Bacharelado em Tecnologia da Informação da Universidade Federal do Rio Grande do Norte período 2023.1.
 
