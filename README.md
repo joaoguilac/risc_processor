@@ -19,14 +19,13 @@ make FILE=NOME_DO_ARQUIVO EXECUTABLE=NOME_DO_EXECUTAVEL
 ### Manual
 
 ```bash
-cd src/
-g++ -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -o main main.cpp -lsystemc -lm
+g++ -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -o build/main src/main.cpp -lsystemc -lm
 ```
 
 ### Carregamento de dados
 
 ```bash
-./main ../data/<algoritmo>.dat
+./build/main ../data/<algoritmo>.dat
 ```
 São disponíveis alguns algoritmos na pasta data.
 
