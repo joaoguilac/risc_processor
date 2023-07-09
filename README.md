@@ -10,6 +10,7 @@ Alunos:
 ## Compilação
 
 ### Makefile
+OBS: Não está funcionando corretamente
 
 ```
 make FILE=NOME_DO_ARQUIVO EXECUTABLE=NOME_DO_EXECUTAVEL
@@ -27,7 +28,7 @@ g++ -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -o main main.cpp
 ```bash
 ./main ../data/<algoritmo>.dat
 ```
-São disponívei 3 algoritmos na pasta data.
+São disponíveis alguns algoritmos na pasta data.
 
 ### Execução
 
