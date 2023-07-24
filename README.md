@@ -9,6 +9,12 @@ Alunos:
 
 ## Compilação
 
+### Manual
+
+```bash
+g++ -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -o build/main src/main.cpp -lsystemc -lm
+```
+
 ### Makefile
 OBS: Não está funcionando corretamente
 
@@ -16,18 +22,12 @@ OBS: Não está funcionando corretamente
 make FILE=NOME_DO_ARQUIVO EXECUTABLE=NOME_DO_EXECUTAVEL
 ```
 
-### Manual
+## Carregamento de dados
 
 ```bash
-g++ -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -o build/main src/main.cpp -lsystemc -lm
+./build/main ./data/<algoritmo>.dat
 ```
-
-### Carregamento de dados
-
-```bash
-./build/main ../data/<algoritmo>.dat
-```
-São disponíveis alguns algoritmos na pasta data.
+São disponíveis alguns algoritmos na pasta `data`.
 
 ### Execução
 
@@ -36,3 +36,15 @@ Após a execução, será gerado um arquivo de onda após a compilação, para e
 ```bash
 gtkwave wave.vcd
 ```
+
+## TODO
+
+Algumas possíveis melhorias do projeto para o futuro:
+
+- [ ]  ADD depois de um LD não funciona
+- [ ]  O Jump não pula as instruções em pipeline
+- [ ]  Não há tratamento de conflitos
+- [ ]  Adicionar comentários na waveform para melhor entendimento
+- [ ]  Ajeitar nomes de variáveis
+- [ ]  Fazer makefile
+- [ ]  Permitir outros tipos de endereçamento
